@@ -9,11 +9,17 @@ util = require('../tool/util');
 dbwork = require('./member_d');
 
 router.get('/idxExists', function(req, res) {
-  console.log(req.params.idx);
-  console.log(req.params);
   return dbwork.checkMemberIdxExists(req, res, req.get('idx'), function() {
     return console.log('DONE');
   });
+});
+
+router.post('/register', function(req, res) {
+  return dbwork.register(req, res);
+});
+
+router.post('/passwordLogin', function(req, res) {
+  return dbwork.passwordLogin(req, res);
 });
 
 module.exports = router;
