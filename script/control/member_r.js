@@ -22,4 +22,8 @@ router.post('/passwordLogin', function(req, res) {
   return dbwork.passwordLogin(req, res);
 });
 
+router.post('/tokenLogin', function(req, res) {
+  return dbwork.tokenLogin(req, res);
+});
+
 module.exports = router;

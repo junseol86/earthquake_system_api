@@ -13,4 +13,7 @@ router.post '/register', (req, res) ->
 router.post '/passwordLogin', (req, res) ->
   dbwork.passwordLogin(req, res)
 
+router.post '/tokenLogin', (req, res) ->
+  dbwork.tokenLogin(req, res)
+
 module.exports = router
