@@ -1,4 +1,4 @@
-var db, dbwork, jwt, secret, util;
+var db, dbwork, jwt, secret, util, winston;
 
 db = require('../tool/mysql');
 
@@ -8,6 +8,8 @@ secret = require('../tool/secret');
 
 jwt = require('jsonwebtoken');
 
+winston = require('../tool/winston');
+
 dbwork = {
   // 토큰(테이블에 저장되는 값) JWT 토큰 구분할 것
 
@@ -15,7 +17,7 @@ dbwork = {
   checkMemberIdxExists: function(req, res, idx, func) {
     var qrStr;
     qrStr = 'SELECT COUNT(*) count FROM eq_member WHERE mbr_idx = ?';
-    return db.query(qrStr, [idx], function(results, fields) {
+    return db.query(res, qrStr, [idx], function(results, fields) {
       func();
       return res.send(results);
     });
@@ -24,7 +26,7 @@ dbwork = {
   checkIdExists: function(req, res, func) {
     var qrStr;
     qrStr = 'SELECT COUNT(*) count FROM eq_member WHERE mbr_id = ?';
-    return db.query(qrStr, [req.body.mbr_id], function(results, fields) {
+    return db.query(res, qrStr, [req.body.mbr_id], function(results, fields) {
       return func(results, fields);
     });
   },
@@ -32,7 +34,7 @@ dbwork = {
   findMemberById: function(req, res, func) {
     var qrStr;
     qrStr = 'SELECT * FROM eq_member WHERE mbr_id = ?';
-    return db.query(qrStr, [req.body.mbr_id], function(results, fields) {
+    return db.query(res, qrStr, [req.body.mbr_id], function(results, fields) {
       return func(results, fields);
     });
   },
@@ -53,7 +55,7 @@ dbwork = {
         salt = util.createSalt();
         hash = util.hashMD5(req.body.password + salt);
         qrStr = 'INSERT INTO eq_member (mbr_id, mbr_salt, mbr_hash, mbr_name) VALUES (?, ?, ?, ?)';
-        return db.query(qrStr, [req.body.mbr_id, salt, hash, req.body.mbr_name], function(results, fields) {
+        return db.query(res, qrStr, [req.body.mbr_id, salt, hash, req.body.mbr_name], function(results, fields) {
           return res.send({
             result: results.affectedRows > 0 ? 'SUCCESS' : 'FAIL'
           });
@@ -78,7 +80,7 @@ dbwork = {
             result: '비밀번호를 확인해주세요.'
           });
         } else {
-          return _this.replaceToken(result_0, fields, function(jwtToken) {
+          return _this.replaceToken(res, results_0[0], function(jwtToken) {
             return res.send(jwtToken);
           });
         }
@@ -86,19 +88,23 @@ dbwork = {
     });
   },
   // 토큰 갱신
-  replaceToken: function(mbr_idx, func) {
-    var delQrStr;
+  replaceToken: function(res, member, func) {
+    var _this, delQrStr;
+    _this = this;
+    
     // 현 토큰 삭제
     delQrStr = "DELETE FROM eq_token WHERE tkn_mbr_idx = ?";
-    return db.query(delQrStr, [mbr_idx], function(results_1, fields) {
+    return db.query(res, delQrStr, [member.mbr_idx], function(results_1, fields) {
       var insQrStr, token;
       // 새 토큰 발급
       insQrStr = "INSERT INTO eq_token (tkn_mbr_idx, tkn_token) VALUES (?, ?)";
       token = util.createToken();
-      return db.query(insQrStr, [mbr_idx, token], function(results_2, fields) {
+      return db.query(res, insQrStr, [member.mbr_idx, token], function(results_2, fields) {
         var jwtToken;
         jwtToken = jwt.sign({
-          mbr_idx: mbr_idx,
+          mbr_idx: member.mbr_idx,
+          mbr_name: member.mbr_name,
+          mbr_team: member.mbr_team,
           token: token,
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24)
         }, secret.jwtSecret);
@@ -113,10 +119,10 @@ dbwork = {
     jwtToken = req.body.jwtToken;
     return decoded = jwt.verify(jwtToken, secret.jwtSecret, function(error, decoded) {
       if (error) {
-        console.error('error jwt token' + error.stack);
+        winston.errorLog('JWT TOKEN ERROR', error.stack);
         return res.status(401).send('JWT TOKEN ERROR');
       } else {
-        return _this.replaceToken(decoded.mbr_idx, function(jwtToken) {
+        return _this.replaceToken(res, decoded, function(jwtToken) {
           return func(jwtToken);
         });
       }
@@ -136,6 +142,15 @@ dbwork = {
     _this = this;
     return _this.tokenCheck(req, res, function(jwtToken) {
       return res.send(jwtToken);
+    });
+  },
+  // 멤버들 전체 명단 받기
+  getMembers: function(req, res) {
+    var _this, selectStr;
+    _this = this;
+    selectStr = "SELECT mbr_idx, mbr_id, mbr_name, mbr_team, mbr_arrive_in, mbr_arr_last_report, latitude, longitude, mbr_pos_last_report FROM eq_member";
+    return db.query(res, selectStr, [], function(results, fields) {
+      return res.send(results);
     });
   }
 };

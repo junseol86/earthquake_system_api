@@ -1,4 +1,6 @@
-var randomChars;
+var dateformat, randomChars;
+
+dateformat = require('dateformat');
 
 exports.setDateProto = function() {
   Date.prototype.getTimeString = function() {
@@ -48,9 +50,16 @@ exports.hashMD5 = function(str) {
 };
 
 exports.dateBefore = function(offset) {
-  var date, dateformat;
-  dateformat = require('dateformat');
+  var date;
   date = new Date();
   date.setDate(date.getDate() - offset);
   return dateformat(date, 'yyyy-mm-dd HH:mm:ss');
+};
+
+exports.timeStamp = function() {
+  return dateformat(new Date(), 'yyyy-mm-dd HH:mm:ss');
+};
+
+exports.dateStamp = function() {
+  return dateformat(new Date(), 'yyyy-mm-dd');
 };

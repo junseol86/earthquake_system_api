@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var winston = require('./script/tool/winston.js')
 
 var indexRouter = require('./routes/index');
 var rt_load_str = require('./script/control/load_str_r.js');
@@ -34,6 +35,7 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
+  winston.errorLog('EXPRESS ERROR', err.stack);
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 

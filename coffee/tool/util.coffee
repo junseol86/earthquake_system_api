@@ -1,3 +1,5 @@
+dateformat = require 'dateformat'
+
 exports.setDateProto = () ->
   Date.prototype.getTimeString = ->
     timeString = this.getFullYear() + "-"
@@ -35,7 +37,12 @@ exports.hashMD5 = (str) ->
   return md5(str)
 
 exports.dateBefore = (offset) ->
-  dateformat = require 'dateformat'
   date = new Date()
   date.setDate(date.getDate() - offset)
   dateformat date, 'yyyy-mm-dd HH:mm:ss'
+
+exports.timeStamp = () ->
+  dateformat(new Date(), 'yyyy-mm-dd HH:mm:ss')
+
+exports.dateStamp = () ->
+  dateformat(new Date(), 'yyyy-mm-dd')
