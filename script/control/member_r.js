@@ -26,8 +26,8 @@ router.post('/tokenLogin', function(req, res) {
   return dbwork.tokenLogin(req, res);
 });
 
-router.get('/getMembers', function(req, res) {
-  return dbwork.getMembers(req, res);
+router.get('/getList', function(req, res) {
+  return dbwork.getList(req, res);
 });
 
 module.exports = router;

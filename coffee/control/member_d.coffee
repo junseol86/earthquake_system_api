@@ -110,7 +110,7 @@ dbwork = {
       res.send jwtToken
 
   # 멤버들 전체 명단 받기
-  getMembers: (req, res) ->
+  getList: (req, res) ->
     _this = this
     selectStr = "SELECT 
       mbr_idx, mbr_id, mbr_name, mbr_team, 

@@ -145,7 +145,7 @@ dbwork = {
     });
   },
   // 멤버들 전체 명단 받기
-  getMembers: function(req, res) {
+  getList: function(req, res) {
     var _this, selectStr;
     _this = this;
     selectStr = "SELECT mbr_idx, mbr_id, mbr_name, mbr_team, mbr_arrive_in, mbr_arr_last_report, latitude, longitude, mbr_pos_last_report FROM eq_member";

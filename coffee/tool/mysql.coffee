@@ -2,11 +2,11 @@ mysql = require 'mysql'
 secret = require './secret'
 winston = require './winston'
 
-connection = mysql.createConnection secret.connectionInfo
+pool = mysql.createPool secret.connectionInfo
 
 db = {
   query: (res, queryString, placeholders, func) ->
-    connection.query(queryString, placeholders, (error, results, fields) ->
+    pool.query(queryString, placeholders, (error, results, fields) ->
       if error
         winston.errorLog 'SQL ERROR', error.stack
         res.status(500).send 'SQL ERROR'
