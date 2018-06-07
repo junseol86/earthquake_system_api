@@ -12,4 +12,8 @@ router.get('/getList', function(req, res) {
   return dbwork.getList(req, res);
 });
 
+router.post('/insert', function(req, res) {
+  return dbwork.insert(req, res);
+});
+
 module.exports = router;

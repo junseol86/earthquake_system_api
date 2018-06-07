@@ -1,0 +1,3 @@
+{"time":"2018-06-06 18:06:43","level":"debug","message":"SELECT * FROM eq_member WHERE mbr_id = ?"}
+{"time":"2018-06-06 18:06:43","level":"debug","message":"DELETE FROM eq_token WHERE tkn_mbr_idx = ?"}
+{"time":"2018-06-06 18:06:43","level":"debug","message":"INSERT INTO eq_token (tkn_mbr_idx, tkn_token) VALUES (?, ?)"}
