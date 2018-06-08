@@ -569,6 +569,26 @@
             "date": 1528276723253,
             "name": "z_2018-06-06-18-combined.log",
             "hash": "ecd4acce5f1bf5d97a1257338a426d1e"
+        },
+        {
+            "date": 1528466925715,
+            "name": "z_2018-06-08-23-combined.log",
+            "hash": "ddbcecf33289b244fe7d739a39d17229"
+        },
+        {
+            "date": 1528466925717,
+            "name": "z_2018-06-08-23-error.log",
+            "hash": "5731823857ffe2a65c50b9516eaa60e4"
+        },
+        {
+            "date": 1528468458277,
+            "name": "z_2018-06-08-23-combined.log",
+            "hash": "e61be575cb1a1fe22b2564d27212ed29"
+        },
+        {
+            "date": 1528468458279,
+            "name": "z_2018-06-08-23-error.log",
+            "hash": "95db56ba1acc86f49f7ac3b792a55b4a"
         }
     ]
 }

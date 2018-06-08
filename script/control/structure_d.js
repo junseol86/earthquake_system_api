@@ -39,6 +39,45 @@ dbwork = {
         }
       });
     });
+  },
+  // 구조물 수정
+  modify: function(req, res) {
+    var _this;
+    _this = this;
+    return member.tokenCheck(req, res, function(jwtToken) {
+      var modQr, result;
+      result = {
+        jwtToken: jwtToken
+      };
+      modQr = 'UPDATE eq_structure SET str_branch = ?, str_line = ?, str_name = ?, latitude = ?, longitude = ? WHERE str_idx = ?';
+      return db.query(res, modQr, [req.body.str_branch, req.body.str_line, req.body.str_name, req.body.latitude, req.body.longitude, req.body.str_idx], function(results, fields) {
+        result.success = results.affectedRows > 0;
+        if (!result.success) {
+          return res.send(result);
+        } else {
+          return _this.getOneByIdx(req, res, req.body.str_idx, function(structure) {
+            result.structure = structure;
+            return res.send(result);
+          });
+        }
+      });
+    });
+  },
+  // 구조물 삭제 
+  delete: function(req, res) {
+    var _this;
+    _this = this;
+    return member.tokenCheck(req, res, function(jwtToken) {
+      var delQr, result;
+      result = {
+        jwtToken: jwtToken
+      };
+      delQr = 'DELETE FROM eq_structure WHERE str_idx = ?';
+      return db.query(res, delQr, [req.body.str_idx], function(results, fields) {
+        result.success = results.affectedRows > 0;
+        return res.send(result);
+      });
+    });
   }
 };
 

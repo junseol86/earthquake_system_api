@@ -9,4 +9,10 @@ router.get '/getList', (req, res) ->
 router.post '/insert', (req, res) ->
   dbwork.insert req, res
 
+router.put '/modify', (req, res) ->
+  dbwork.modify req, res
+
+router.post '/delete', (req, res) ->
+  dbwork.delete req, res
+
 module.exports = router

@@ -1,0 +1,11 @@
+{"time":"2018-06-08 23:06:15","level":"error","message":"JWT TOKEN ERROR"}
+{"time":"2018-06-08 23:06:34","level":"error","message":"JWT TOKEN ERROR"}
+{"time":"2018-06-08 23:06:48","level":"error","message":"JWT TOKEN ERROR"}
+{"time":"2018-06-08 23:06:44","level":"debug","message":"DELETE FROM eq_token WHERE tkn_mbr_idx = ?"}
+{"time":"2018-06-08 23:06:44","level":"debug","message":"INSERT INTO eq_token (tkn_mbr_idx, tkn_token) VALUES (?, ?)"}
+{"time":"2018-06-08 23:06:44","level":"debug","message":"UPDATE eq_structure SET str_branch = ?, str_line = ?, str_name = ?, latitude = ?, longitude = ? WHERE str_idx = ?"}
+{"time":"2018-06-08 23:06:45","level":"debug","message":"SELECT * FROM eq_structure WHERE str_idx = ?"}
+{"time":"2018-06-08 23:06:30","level":"error","message":"EXPRESS ERROR"}
+{"time":"2018-06-08 23:06:14","level":"debug","message":"DELETE FROM eq_token WHERE tkn_mbr_idx = ?"}
+{"time":"2018-06-08 23:06:15","level":"debug","message":"INSERT INTO eq_token (tkn_mbr_idx, tkn_token) VALUES (?, ?)"}
+{"time":"2018-06-08 23:06:15","level":"debug","message":"DELETE FROM eq_structure WHERE str_idx = ?"}

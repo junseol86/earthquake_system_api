@@ -16,4 +16,12 @@ router.post('/insert', function(req, res) {
   return dbwork.insert(req, res);
 });
 
+router.put('/modify', function(req, res) {
+  return dbwork.modify(req, res);
+});
+
+router.post('/delete', function(req, res) {
+  return dbwork.delete(req, res);
+});
+
 module.exports = router;
