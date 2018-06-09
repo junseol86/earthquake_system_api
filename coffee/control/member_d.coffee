@@ -40,8 +40,8 @@ dbwork = {
         # 솔트와 해시 생성 뒤 계정 생성
         salt = util.createSalt()
         hash = util.hashMD5(req.body.password + salt)
-        qrStr = 'INSERT INTO eq_member (mbr_id, mbr_salt, mbr_hash, mbr_name) VALUES (?, ?, ?, ?)'
-        db.query res, qrStr, [req.body.mbr_id, salt, hash, req.body.mbr_name], (results, fields) ->
+        qrStr = 'INSERT INTO eq_member (mbr_id, mbr_salt, mbr_hash, mbr_name, mbr_phone) VALUES (?, ?, ?, ?, ?)'
+        db.query res, qrStr, [req.body.mbr_id, salt, hash, req.body.mbr_name, req.body.mbr_phone], (results, fields) ->
           res.send {
             result: if results.affectedRows > 0 then 'SUCCESS' else 'FAIL'
           }
@@ -113,12 +113,25 @@ dbwork = {
   getList: (req, res) ->
     _this = this
     selectStr = "SELECT 
-      mbr_idx, mbr_id, mbr_name, mbr_team, 
+      mbr_idx, mbr_id, mbr_name, mbr_phone, mbr_team, 
       mbr_arrive_in, mbr_arr_last_report,
       latitude, longitude, mbr_pos_last_report
      FROM eq_member"
     db.query res, selectStr, [], (results, fields) ->
       res.send results
+
+  # 멤버 팀 바꾸기
+  changeTeam: (req, res) ->
+    _this = this
+    _this.tokenCheck req, res, (jwtToken) ->
+      result = {
+        jwtToken: jwtToken
+      }
+      modTeamStr = "UPDATE eq_member SET mbr_team = ?
+        WHERE mbr_idx = ?"
+      db.query res, modTeamStr, [req.body.team, req.body.mbr_idx], (results, fields) ->
+        result.success = results.affectedRows > 0
+        res.send result
 
 }
 

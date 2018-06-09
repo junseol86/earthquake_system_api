@@ -54,8 +54,8 @@ dbwork = {
         // 솔트와 해시 생성 뒤 계정 생성
         salt = util.createSalt();
         hash = util.hashMD5(req.body.password + salt);
-        qrStr = 'INSERT INTO eq_member (mbr_id, mbr_salt, mbr_hash, mbr_name) VALUES (?, ?, ?, ?)';
-        return db.query(res, qrStr, [req.body.mbr_id, salt, hash, req.body.mbr_name], function(results, fields) {
+        qrStr = 'INSERT INTO eq_member (mbr_id, mbr_salt, mbr_hash, mbr_name, mbr_phone) VALUES (?, ?, ?, ?, ?)';
+        return db.query(res, qrStr, [req.body.mbr_id, salt, hash, req.body.mbr_name, req.body.mbr_phone], function(results, fields) {
           return res.send({
             result: results.affectedRows > 0 ? 'SUCCESS' : 'FAIL'
           });
@@ -148,9 +148,25 @@ dbwork = {
   getList: function(req, res) {
     var _this, selectStr;
     _this = this;
-    selectStr = "SELECT mbr_idx, mbr_id, mbr_name, mbr_team, mbr_arrive_in, mbr_arr_last_report, latitude, longitude, mbr_pos_last_report FROM eq_member";
+    selectStr = "SELECT mbr_idx, mbr_id, mbr_name, mbr_phone, mbr_team, mbr_arrive_in, mbr_arr_last_report, latitude, longitude, mbr_pos_last_report FROM eq_member";
     return db.query(res, selectStr, [], function(results, fields) {
       return res.send(results);
+    });
+  },
+  // 멤버 팀 바꾸기
+  changeTeam: function(req, res) {
+    var _this;
+    _this = this;
+    return _this.tokenCheck(req, res, function(jwtToken) {
+      var modTeamStr, result;
+      result = {
+        jwtToken: jwtToken
+      };
+      modTeamStr = "UPDATE eq_member SET mbr_team = ? WHERE mbr_idx = ?";
+      return db.query(res, modTeamStr, [req.body.team, req.body.mbr_idx], function(results, fields) {
+        result.success = results.affectedRows > 0;
+        return res.send(result);
+      });
     });
   }
 };

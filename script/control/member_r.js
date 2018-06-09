@@ -30,4 +30,8 @@ router.get('/getList', function(req, res) {
   return dbwork.getList(req, res);
 });
 
+router.put('/changeTeam', function(req, res) {
+  return dbwork.changeTeam(req, res);
+});
+
 module.exports = router;

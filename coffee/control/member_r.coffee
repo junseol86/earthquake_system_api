@@ -19,4 +19,7 @@ router.post '/tokenLogin', (req, res) ->
 router.get '/getList', (req, res) ->
   dbwork.getList req, res
 
+router.put '/changeTeam', (req, res) ->
+  dbwork.changeTeam req, res
+
 module.exports = router
