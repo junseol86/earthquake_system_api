@@ -22,4 +22,7 @@ router.get '/getList', (req, res) ->
 router.put '/changeTeam', (req, res) ->
   dbwork.changeTeam req, res
 
+router.post '/delete', (req, res) ->
+  dbwork.delete req, res
+
 module.exports = router

@@ -34,4 +34,8 @@ router.put('/changeTeam', function(req, res) {
   return dbwork.changeTeam(req, res);
 });
 
+router.post('/delete', function(req, res) {
+  return dbwork.delete(req, res);
+});
+
 module.exports = router;

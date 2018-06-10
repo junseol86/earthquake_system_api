@@ -589,6 +589,36 @@
             "date": 1528468458279,
             "name": "z_2018-06-08-23-error.log",
             "hash": "95db56ba1acc86f49f7ac3b792a55b4a"
+        },
+        {
+            "date": 1528644506182,
+            "name": "z_2018-06-11-00-combined.log",
+            "hash": "6504fd7f2974114b5c1cc265dbc52aec"
+        },
+        {
+            "date": 1528644506186,
+            "name": "z_2018-06-11-00-error.log",
+            "hash": "590b17f9026377a08836e2366532b342"
+        },
+        {
+            "date": 1528644990048,
+            "name": "z_2018-06-11-00-combined.log",
+            "hash": "a1071373e8b7f8aaf906762aa2b9cc40"
+        },
+        {
+            "date": 1528644990051,
+            "name": "z_2018-06-11-00-error.log",
+            "hash": "73cdf39708ebc5ae56abb5a659523cd3"
+        },
+        {
+            "date": 1528645046055,
+            "name": "z_2018-06-11-00-combined.log",
+            "hash": "9e70f3ab471fcc64edf6c91ae1736a54"
+        },
+        {
+            "date": 1528645046057,
+            "name": "z_2018-06-11-00-error.log",
+            "hash": "62a7d6d90a663690d4828251a9f04441"
         }
     ]
 }

@@ -168,6 +168,22 @@ dbwork = {
         return res.send(result);
       });
     });
+  },
+  // 멤버 삭제
+  delete: function(req, res) {
+    var _this;
+    _this = this;
+    return _this.tokenCheck(req, res, function(jwtToken) {
+      var delQr, result;
+      result = {
+        jwtToken: jwtToken
+      };
+      delQr = 'DELETE FROM eq_member WHERE mbr_idx = ?';
+      return db.query(res, delQr, [req.body.mbr_idx], function(results, fields) {
+        result.success = results.affectedRows > 0;
+        return res.send(result);
+      });
+    });
   }
 };
 

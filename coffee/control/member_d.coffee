@@ -133,6 +133,18 @@ dbwork = {
         result.success = results.affectedRows > 0
         res.send result
 
+  # 멤버 삭제
+  delete: (req, res) ->
+    _this = this
+    _this.tokenCheck req, res, (jwtToken) ->
+      result = {
+        jwtToken: jwtToken
+      }
+      delQr = 'DELETE FROM eq_member WHERE mbr_idx = ?'
+      db.query res, delQr, [req.body.mbr_idx], (results, fields) ->
+        result.success = results.affectedRows > 0
+        res.send result
+
 }
 
 module.exports = dbwork
