@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var rt_load_str = require('./script/control/load_str_r.js');
 var rt_member = require('./script/control/member_r.js');
 var rt_structure = require('./script/control/structure_r.js');
+var rt_earthquake = require('./script/control/earthquake_r.js');
 
 var app = express();
 
@@ -26,6 +27,7 @@ app.use('/', indexRouter);
 app.use('/load_str', rt_load_str);
 app.use('/member', rt_member);
 app.use('/structure', rt_structure);
+app.use('/earthquake', rt_earthquake);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
