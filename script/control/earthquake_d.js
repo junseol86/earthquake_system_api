@@ -7,7 +7,7 @@ member = require('./member_d');
 dbwork = {
   // 지진 리스트 다운
   getList: function(req, res) {
-    return db.query(res, 'SELECT * FROM eq_earthquake', [], function(results, fields) {
+    return db.query(res, 'SELECT * FROM eq_earthquake ORDER BY eq_idx DESC', [], function(results, fields) {
       return res.send(results);
     });
   },
@@ -53,6 +53,31 @@ dbwork = {
       return db.query(res, delQr, [req.body.eq_idx], function(results, fields) {
         result.success = results.affectedRows > 0;
         return res.send(result);
+      });
+    });
+  },
+  //지진 진행/종료
+  activeToggle: function(req, res) {
+    var _this;
+    _this = this;
+    return member.tokenCheck(req, res, function(jwtToken) {
+      var allOffQr, result;
+      result = {
+        jwtToken: jwtToken
+      };
+      allOffQr = 'UPDATE eq_earthquake SET eq_active = 0';
+      return db.query(res, allOffQr, [], function(results, fields) {
+        var actvQr;
+        result.success = results.affectedRows > 0;
+        if (req.body.set === '0') {
+          return res.send(result);
+        } else {
+          actvQr = 'UPDATE eq_earthquake SET eq_active = 1 WHERE eq_idx = ?';
+          return db.query(res, actvQr, [req.body.eq_idx], function(results, fields) {
+            result.success = results.affectedRows > 0;
+            return res.send(result);
+          });
+        }
       });
     });
   }

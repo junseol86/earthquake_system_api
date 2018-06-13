@@ -12,4 +12,7 @@ router.post '/insert', (req, res) ->
 router.post '/delete', (req, res) ->
   dbwork.delete req, res
 
+router.put '/activeToggle', (req, res) ->
+  dbwork.activeToggle req, res
+
 module.exports = router

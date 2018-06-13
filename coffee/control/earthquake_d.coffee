@@ -5,7 +5,7 @@ dbwork = {
 
   # 지진 리스트 다운
   getList: (req, res) ->
-    db.query res, 'SELECT * FROM eq_earthquake', [], (results, fields) ->
+    db.query res, 'SELECT * FROM eq_earthquake ORDER BY eq_idx DESC', [], (results, fields) ->
       res.send results
 
   # 지진 하나 다운
@@ -43,6 +43,25 @@ dbwork = {
       db.query res, delQr, [req.body.eq_idx], (results, fields) ->
         result.success = results.affectedRows > 0
         res.send result
+
+  #지진 진행/종료
+  activeToggle: (req, res) ->
+    _this = this
+    member.tokenCheck req, res, (jwtToken) ->
+      result = {
+        jwtToken: jwtToken
+      }
+      allOffQr = 'UPDATE eq_earthquake SET eq_active = 0'
+      db.query res, allOffQr, [], (results, fields) ->
+        result.success = results.affectedRows > 0
+        if req.body.set == '0'
+          res.send result
+        else 
+          actvQr = 'UPDATE eq_earthquake SET eq_active = 1 WHERE eq_idx = ?'
+          db.query res, actvQr, [req.body.eq_idx], (results, fields) ->
+            result.success = results.affectedRows > 0
+            res.send result
+
 
 }
     

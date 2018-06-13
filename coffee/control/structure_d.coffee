@@ -5,7 +5,7 @@ dbwork = {
 
   # 구조물 리스트 다운
   getList: (req, res) ->
-    db.query res, 'SELECT * FROM eq_structure', [], (results, fields) ->
+    db.query res, 'SELECT * FROM eq_structure ORDER BY str_name ASC', [], (results, fields) ->
       res.send results
 
   # 구조물 하나 다운

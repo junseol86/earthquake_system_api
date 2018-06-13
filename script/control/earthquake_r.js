@@ -20,4 +20,8 @@ router.post('/delete', function(req, res) {
   return dbwork.delete(req, res);
 });
 
+router.put('/activeToggle', function(req, res) {
+  return dbwork.activeToggle(req, res);
+});
+
 module.exports = router;

@@ -7,7 +7,7 @@ member = require('./member_d');
 dbwork = {
   // 구조물 리스트 다운
   getList: function(req, res) {
-    return db.query(res, 'SELECT * FROM eq_structure', [], function(results, fields) {
+    return db.query(res, 'SELECT * FROM eq_structure ORDER BY str_name ASC', [], function(results, fields) {
       return res.send(results);
     });
   },
