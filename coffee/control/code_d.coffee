@@ -4,9 +4,15 @@ member = require './member_d'
 dbwork = {
 
   # 코드 받기
-  getCode: (req, res) ->
-    db.query res, 'SELECT cd_code FROM eq_code WHERE cd_name = ?', [req.headers.code], (results, fields) ->
-      res.send results[0]
+  getCode: (code, res, func) ->
+    db.query res, 'SELECT cd_code FROM eq_code WHERE cd_name = ?', [code], (results, fields) ->
+      func(results[0])
+
+  getRegisterCode: (req, res) ->
+    _this = this
+    _this.getCode 'register', res, (result) ->
+      res.send result
+  
 
   # 코드 변경
   modify: (req, res) ->

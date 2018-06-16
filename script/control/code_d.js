@@ -6,11 +6,19 @@ member = require('./member_d');
 
 dbwork = {
   // 코드 받기
-  getCode: function(req, res) {
-    return db.query(res, 'SELECT cd_code FROM eq_code WHERE cd_name = ?', [req.headers.code], function(results, fields) {
-      return res.send(results[0]);
+  getCode: function(code, res, func) {
+    return db.query(res, 'SELECT cd_code FROM eq_code WHERE cd_name = ?', [code], function(results, fields) {
+      return func(results[0]);
     });
   },
+  getRegisterCode: function(req, res) {
+    var _this;
+    _this = this;
+    return _this.getCode('register', res, function(result) {
+      return res.send(result);
+    });
+  },
+  
   // 코드 변경
   modify: function(req, res) {
     var _this;

@@ -3,6 +3,7 @@ util = require '../tool/util'
 secret = require '../tool/secret'
 jwt = require 'jsonwebtoken';
 winston = require '../tool/winston'
+code = require './code_d'
 
 dbwork = {
 
@@ -30,21 +31,27 @@ dbwork = {
   # 회원 생성
   register: (req, res) ->
     _this = this
-    # 중복 아이디 체크
-    _this.checkIdExists req, res, (results, fields) ->
-      if results[0].count > 0
+    code.getCode 'register', res, (result) ->
+      if result.cd_code != req.body.code
         res.status(403).send {
-          result: '중복되는 아이디가 있습니다.'
+          result: '가입코드를 확인하세요.'
         }
       else
-        # 솔트와 해시 생성 뒤 계정 생성
-        salt = util.createSalt()
-        hash = util.hashMD5(req.body.password + salt)
-        qrStr = 'INSERT INTO eq_member (mbr_id, mbr_salt, mbr_hash, mbr_name, mbr_phone) VALUES (?, ?, ?, ?, ?)'
-        db.query res, qrStr, [req.body.mbr_id, salt, hash, req.body.mbr_name, req.body.mbr_phone], (results, fields) ->
-          res.send {
-            result: if results.affectedRows > 0 then 'SUCCESS' else 'FAIL'
-          }
+        # 중복 아이디 체크
+        _this.checkIdExists req, res, (results, fields) ->
+          if results[0].count > 0
+            res.status(403).send {
+              result: '중복되는 아이디가 있습니다.'
+            }
+          else
+            # 솔트와 해시 생성 뒤 계정 생성
+            salt = util.createSalt()
+            hash = util.hashMD5(req.body.password + salt)
+            qrStr = 'INSERT INTO eq_member (mbr_id, mbr_salt, mbr_hash, mbr_name, mbr_phone) VALUES (?, ?, ?, ?, ?)'
+            db.query res, qrStr, [req.body.mbr_id, salt, hash, req.body.mbr_name, req.body.mbr_phone], (results, fields) ->
+              res.send {
+                result: if results.affectedRows > 0 then 'SUCCESS' else 'FAIL'
+              }
 
   # 패스워드 로그인
   passwordLogin: (req, res) ->
@@ -91,7 +98,9 @@ dbwork = {
     decoded = jwt.verify jwtToken, secret.jwtSecret, (error, decoded) ->
       if error
         winston.errorLog 'JWT TOKEN ERROR', error.stack
-        res.status(401).send 'JWT TOKEN ERROR'
+        res.status(401).send {
+          result: '토큰 에러입니다.  앱을 다시 실행해주세요.'
+        }
       else
         _this.replaceToken res, decoded, (jwtToken) ->
           func jwtToken

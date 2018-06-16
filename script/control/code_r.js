@@ -6,8 +6,8 @@ router = express.Router();
 
 dbwork = require('./code_d');
 
-router.get('/getCode', function(req, res) {
-  return dbwork.getCode(req, res);
+router.get('/getRegisterCode', function(req, res) {
+  return dbwork.getRegisterCode(req, res);
 });
 
 router.put('/modify', function(req, res) {

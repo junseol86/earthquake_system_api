@@ -1,4 +1,4 @@
-var db, dbwork, jwt, secret, util, winston;
+var code, db, dbwork, jwt, secret, util, winston;
 
 db = require('../tool/mysql');
 
@@ -9,6 +9,8 @@ secret = require('../tool/secret');
 jwt = require('jsonwebtoken');
 
 winston = require('../tool/winston');
+
+code = require('./code_d');
 
 dbwork = {
   // 토큰(테이블에 저장되는 값) JWT 토큰 구분할 것
@@ -43,22 +45,30 @@ dbwork = {
   register: function(req, res) {
     var _this;
     _this = this;
-    // 중복 아이디 체크
-    return _this.checkIdExists(req, res, function(results, fields) {
-      var hash, qrStr, salt;
-      if (results[0].count > 0) {
+    return code.getCode('register', res, function(result) {
+      if (result.cd_code !== req.body.code) {
         return res.status(403).send({
-          result: '중복되는 아이디가 있습니다.'
+          result: '가입코드를 확인하세요.'
         });
       } else {
-        // 솔트와 해시 생성 뒤 계정 생성
-        salt = util.createSalt();
-        hash = util.hashMD5(req.body.password + salt);
-        qrStr = 'INSERT INTO eq_member (mbr_id, mbr_salt, mbr_hash, mbr_name, mbr_phone) VALUES (?, ?, ?, ?, ?)';
-        return db.query(res, qrStr, [req.body.mbr_id, salt, hash, req.body.mbr_name, req.body.mbr_phone], function(results, fields) {
-          return res.send({
-            result: results.affectedRows > 0 ? 'SUCCESS' : 'FAIL'
-          });
+        // 중복 아이디 체크
+        return _this.checkIdExists(req, res, function(results, fields) {
+          var hash, qrStr, salt;
+          if (results[0].count > 0) {
+            return res.status(403).send({
+              result: '중복되는 아이디가 있습니다.'
+            });
+          } else {
+            // 솔트와 해시 생성 뒤 계정 생성
+            salt = util.createSalt();
+            hash = util.hashMD5(req.body.password + salt);
+            qrStr = 'INSERT INTO eq_member (mbr_id, mbr_salt, mbr_hash, mbr_name, mbr_phone) VALUES (?, ?, ?, ?, ?)';
+            return db.query(res, qrStr, [req.body.mbr_id, salt, hash, req.body.mbr_name, req.body.mbr_phone], function(results, fields) {
+              return res.send({
+                result: results.affectedRows > 0 ? 'SUCCESS' : 'FAIL'
+              });
+            });
+          }
         });
       }
     });
@@ -120,7 +130,9 @@ dbwork = {
     return decoded = jwt.verify(jwtToken, secret.jwtSecret, function(error, decoded) {
       if (error) {
         winston.errorLog('JWT TOKEN ERROR', error.stack);
-        return res.status(401).send('JWT TOKEN ERROR');
+        return res.status(401).send({
+          result: '토큰 에러입니다.  앱을 다시 실행해주세요.'
+        });
       } else {
         return _this.replaceToken(res, decoded, function(jwtToken) {
           return func(jwtToken);
