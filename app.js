@@ -11,6 +11,7 @@ var rt_member = require('./script/control/member_r.js');
 var rt_structure = require('./script/control/structure_r.js');
 var rt_earthquake = require('./script/control/earthquake_r.js');
 var rt_code = require('./script/control/code_r.js');
+var rt_spot = require('./script/control/spot_r.js');
 
 var app = express();
 
@@ -30,6 +31,7 @@ app.use('/member', rt_member);
 app.use('/structure', rt_structure);
 app.use('/earthquake', rt_earthquake);
 app.use('/code', rt_code);
+app.use('/spot', rt_spot);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

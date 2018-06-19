@@ -1,3 +1,0 @@
-{"time":"2018-06-03 22:06:14","level":"error","message":"EXPRESS ERROR"}
-{"time":"2018-06-03 22:06:25","level":"debug","message":"SELECT mbr_idx, mbr_id, mbr_name, mbr_team, mbr_arrive_in, mbr_arr_last_report, latitude, longitude, mbr_pos_last_report FROM eq_member"}
-{"time":"2018-06-03 22:06:23","level":"error","message":"EXPRESS ERROR"}
