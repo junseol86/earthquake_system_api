@@ -1,12 +1,25 @@
 db = require '../tool/mysql'
 member = require './member_d'
+earthquake = require './earthquake_d'
+util = require './../tool/util'
 
 dbwork = {
 
   # 구조물 리스트 다운
   getList: (req, res) ->
     db.query res, 'SELECT * FROM eq_structure ORDER BY str_name ASC', [], (results, fields) ->
-      res.send results
+      structures = results
+      db.query res, 'SELECT * FROM eq_earthquake where eq_active = 1', [], (eqs, fields) ->
+        if eqs.length == 0
+          structures.map (structure) ->
+            structure.on_team = 0
+          res.send structures
+        else
+          eq = eqs[0]
+          util.evalEq eq
+          structures.map (str) ->
+            console.log(util.distBwCoords(str.latitude, str.longitude, eq.latitude, eq.longitude))
+          res.send structures
 
   # 구조물 하나 다운
   getOneByIdx: (req, res, str_idx, func) ->

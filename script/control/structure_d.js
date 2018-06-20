@@ -1,14 +1,35 @@
-var db, dbwork, member;
+var db, dbwork, earthquake, member, util;
 
 db = require('../tool/mysql');
 
 member = require('./member_d');
 
+earthquake = require('./earthquake_d');
+
+util = require('./../tool/util');
+
 dbwork = {
   // 구조물 리스트 다운
   getList: function(req, res) {
     return db.query(res, 'SELECT * FROM eq_structure ORDER BY str_name ASC', [], function(results, fields) {
-      return res.send(results);
+      var structures;
+      structures = results;
+      return db.query(res, 'SELECT * FROM eq_earthquake where eq_active = 1', [], function(eqs, fields) {
+        var eq;
+        if (eqs.length === 0) {
+          structures.map(function(structure) {
+            return structure.on_team = 0;
+          });
+          return res.send(structures);
+        } else {
+          eq = eqs[0];
+          util.evalEq(eq);
+          structures.map(function(str) {
+            return console.log(util.distBwCoords(str.latitude, str.longitude, eq.latitude, eq.longitude));
+          });
+          return res.send(structures);
+        }
+      });
     });
   },
   // 구조물 하나 다운

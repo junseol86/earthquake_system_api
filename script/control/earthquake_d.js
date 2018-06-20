@@ -1,13 +1,18 @@
-var db, dbwork, member;
+var db, dbwork, member, util;
 
 db = require('../tool/mysql');
 
 member = require('./member_d');
 
+util = require('./../tool/util');
+
 dbwork = {
   // 지진 리스트 다운
   getList: function(req, res) {
     return db.query(res, 'SELECT * FROM eq_earthquake ORDER BY eq_idx DESC', [], function(results, fields) {
+      results.map(function(eq) {
+        return util.evalEq(eq);
+      });
       return res.send(results);
     });
   },

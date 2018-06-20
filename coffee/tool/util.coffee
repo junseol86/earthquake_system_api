@@ -46,3 +46,32 @@ exports.timeStamp = () ->
 
 exports.dateStamp = () ->
   dateformat(new Date(), 'yyyy-mm-dd')
+
+exports.evalEq = (eq) ->
+  if eq.eq_type = 'inland'
+    if 3.5 <= eq.eq_strength < 4
+      eq.eq_level = 0
+    else if 4 <= eq.eq_strength < 5
+      eq.eq_level = 1
+    else if 5 <= eq.eq_strength
+      eq.eq_level = 2
+  else if eq.eq_type = 'waters'
+    if 4 <= eq.eq_strength < 4.5
+      eq.eq_level = 0
+    else if 4.5 <= eq.eq_strength < 5.5
+      eq.eq_level = 1
+    else if 5.5 <= eq.eq_strength
+      eq.eq_level = 2
+
+exports.degToRad = (deg) ->
+  deg * Math.PI / 180
+
+exports.distBwCoords = (lat1, lng1, lat2, lng2) ->
+  eqR_km = 6371
+  dLat = this.degToRad(lat2 - lat1)
+  dLng = this.degToRad(lng2 - lng1)
+  lat1 = this.degToRad lat1
+  lat2 = this.degToRad lat2
+  a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLng/2) * Math.sin(dLng/2) * Math.cos(lat1) * Math.cos(lat2)
+  c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+  eqR_km * c

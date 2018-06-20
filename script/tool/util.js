@@ -63,3 +63,40 @@ exports.timeStamp = function() {
 exports.dateStamp = function() {
   return dateformat(new Date(), 'yyyy-mm-dd');
 };
+
+exports.evalEq = function(eq) {
+  var ref, ref1, ref2, ref3;
+  if (eq.eq_type = 'inland') {
+    if ((3.5 <= (ref = eq.eq_strength) && ref < 4)) {
+      return eq.eq_level = 0;
+    } else if ((4 <= (ref1 = eq.eq_strength) && ref1 < 5)) {
+      return eq.eq_level = 1;
+    } else if (5 <= eq.eq_strength) {
+      return eq.eq_level = 2;
+    }
+  } else if (eq.eq_type = 'waters') {
+    if ((4 <= (ref2 = eq.eq_strength) && ref2 < 4.5)) {
+      return eq.eq_level = 0;
+    } else if ((4.5 <= (ref3 = eq.eq_strength) && ref3 < 5.5)) {
+      return eq.eq_level = 1;
+    } else if (5.5 <= eq.eq_strength) {
+      return eq.eq_level = 2;
+    }
+  }
+};
+
+exports.degToRad = function(deg) {
+  return deg * Math.PI / 180;
+};
+
+exports.distBwCoords = function(lat1, lng1, lat2, lng2) {
+  var a, c, dLat, dLng, eqR_km;
+  eqR_km = 6371;
+  dLat = this.degToRad(lat2 - lat1);
+  dLng = this.degToRad(lng2 - lng1);
+  lat1 = this.degToRad(lat1);
+  lat2 = this.degToRad(lat2);
+  a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);
+  c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return eqR_km * c;
+};

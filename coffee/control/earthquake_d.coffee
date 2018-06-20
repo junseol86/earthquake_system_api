@@ -1,11 +1,14 @@
 db = require '../tool/mysql'
 member = require './member_d'
+util = require './../tool/util'
 
 dbwork = {
 
   # 지진 리스트 다운
   getList: (req, res) ->
     db.query res, 'SELECT * FROM eq_earthquake ORDER BY eq_idx DESC', [], (results, fields) ->
+      results.map (eq) ->
+        util.evalEq eq
       res.send results
 
   # 지진 하나 다운
