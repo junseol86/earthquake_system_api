@@ -10,16 +10,16 @@ dbwork = {
     db.query res, 'SELECT * FROM eq_structure ORDER BY str_name ASC', [], (results, fields) ->
       structures = results
       db.query res, 'SELECT * FROM eq_earthquake where eq_active = 1', [], (eqs, fields) ->
+        # 지진이 없는 상황
         if eqs.length == 0
           structures.map (structure) ->
             structure.on_team = 0
           res.send structures
+        # 지진 발생시
         else
           eq = eqs[0]
           util.evalEq eq
-          structures.map (str) ->
-            console.log(util.distBwCoords(str.latitude, str.longitude, eq.latitude, eq.longitude))
-          res.send structures
+          res.send util.assignStr eq, structures
 
   # 구조물 하나 다운
   getOneByIdx: (req, res, str_idx, func) ->

@@ -16,18 +16,17 @@ dbwork = {
       structures = results;
       return db.query(res, 'SELECT * FROM eq_earthquake where eq_active = 1', [], function(eqs, fields) {
         var eq;
+        // 지진이 없는 상황
         if (eqs.length === 0) {
           structures.map(function(structure) {
             return structure.on_team = 0;
           });
           return res.send(structures);
         } else {
+          // 지진 발생시
           eq = eqs[0];
           util.evalEq(eq);
-          structures.map(function(str) {
-            return console.log(util.distBwCoords(str.latitude, str.longitude, eq.latitude, eq.longitude));
-          });
-          return res.send(structures);
+          return res.send(util.assignStr(eq, structures));
         }
       });
     });

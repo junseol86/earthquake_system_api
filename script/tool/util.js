@@ -1,6 +1,8 @@
-var dateformat, randomChars;
+var _, dateformat, randomChars;
 
 dateformat = require('dateformat');
+
+_ = require('lodash');
 
 exports.setDateProto = function() {
   Date.prototype.getTimeString = function() {
@@ -99,4 +101,52 @@ exports.distBwCoords = function(lat1, lng1, lat2, lng2) {
   a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);
   c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return eqR_km * c;
+};
+
+exports.assignStr = function(eq, strs) {
+  var _this, inStr, inStrLeftRight, inStrTopBottom, outStr, perTeam, range, teams;
+  _this = this;
+  // 지진 강도별 관할 거리
+  range = 25 * Math.pow(2, eq.eq_level);
+  // 점검팀 수
+  teams = 8;
+  // 관할거리 외 구조물
+  outStr = [];
+  // 관할거리 내 구조물
+  inStr = [];
+  inStrLeftRight = [0, 0];
+  inStrTopBottom = [0, 0];
+  strs.map(function(str) {
+    var dist;
+    dist = _this.distBwCoords(eq.latitude, eq.longitude, str.latitude, str.longitude);
+    if (dist > range) {
+      str.on_team = 0;
+      return outStr.push(str);
+    } else {
+      str.from_eq = dist;
+      return inStr.push(str);
+    }
+  });
+  // # 관할 구조물들이 가로 혹은 세로로 길게 늘어섰는가 판단
+  // inStrLeftRight[0] = if inStrLeftRight[0] == 0 then str.longitude else Math.min(inStrLeftRight[0], str.longitude)
+  // inStrLeftRight[1] = if inStrLeftRight[1] == 0 then str.longitude else Math.max(inStrLeftRight[1], str.longitude)
+  // inStrTopBottom[0] = if inStrTopBottom[0] == 0 then str.latitude else Math.min(inStrTopBottom[0], str.latitude)
+  // inStrTopBottom[1] = if inStrTopBottom[1] == 0 then str.latitude else Math.max(inStrTopBottom[1], str.latitude)
+
+  // # 가로로 길면 가로순, 세로로 길면 세로순
+  // if Math.abs(inStrLeftRight[0] - inStrLeftRight[0]) > Math.abs(inStrTopBottom[0] - inStrTopBottom[1])
+  //   inStr = _.orderBy inStr, ['longitude'], ['asc']
+  // else
+  //   inStr = _.orderBy inStr, ['latitude'], ['asc']
+
+  // 그냥 구조물 하나하나에 번호 지정하는 식으로 변경했음
+  inStr = _.orderBy(inStr, ['str_order'], ['asc']);
+  // 거리에 따라 팀 배정
+  perTeam = inStr.length / teams;
+  inStr.forEach(function(str, idx) {
+    return str.on_team = perTeam > 1 ? Math.floor(idx / perTeam) + 1 : idx + 1;
+  });
+  outStr = _.orderBy(outStr, ['latitude'], ['desc']);
+  inStr = _.orderBy(inStr, ['latitude'], ['desc']);
+  return outStr.concat(inStr);
 };
