@@ -3,18 +3,18 @@ util = require './util'
 require 'winston-daily-rotate-file'
 
 combinedTransport = new  winston.transports.DailyRotateFile  {
-  filename: 'z_%DATE%-combined.log',
+  filename: 'logs/z_%DATE%-combined.log',
   datePattern: 'YYYY-MM-DD-HH',
-  zippedArchive: true,
+  zippedArchive: false,
   maxSize: '20m',
   maxFiles: '14d'
 }
 
 errorTransport = new  winston.transports.DailyRotateFile  {
-  filename: 'z_%DATE%-error.log',
+  filename: 'logs/z_%DATE%-error.log',
   level: 'error',
   datePattern: 'YYYY-MM-DD-HH',
-  zippedArchive: true,
+  zippedArchive: false,
   maxSize: '20m',
   maxFiles: '14d'
 }

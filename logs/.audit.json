@@ -1,0 +1,19 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "logs/.audit.json",
+    "files": [
+        {
+            "date": 1530028518966,
+            "name": "logs/z_2018-06-27-00-combined.log",
+            "hash": "570398f0687c2e99a070e97e0c2a52e8"
+        },
+        {
+            "date": 1530028518968,
+            "name": "logs/z_2018-06-27-00-error.log",
+            "hash": "e0bf7bed0a01d8eab524dd3758d5d8b2"
+        }
+    ]
+}

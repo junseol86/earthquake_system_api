@@ -8,6 +8,7 @@ var winston = require('./script/tool/winston.js')
 var indexRouter = require('./routes/index');
 var rt_load_str = require('./script/control/load_str_r.js');
 var rt_member = require('./script/control/member_r.js');
+var rt_chat = require('./script/control/chat_r.js');``
 var rt_structure = require('./script/control/structure_r.js');
 var rt_earthquake = require('./script/control/earthquake_r.js');
 var rt_code = require('./script/control/code_r.js');
@@ -28,6 +29,7 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/load_str', rt_load_str);
 app.use('/member', rt_member);
+app.use('/chat', rt_chat);
 app.use('/structure', rt_structure);
 app.use('/earthquake', rt_earthquake);
 app.use('/code', rt_code);
