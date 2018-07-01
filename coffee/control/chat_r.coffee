@@ -12,10 +12,13 @@ router.get '/getHqAfter/:chtIdx', (req, res) ->
 router.post '/insertHq', (req, res) ->
   dbwork.insertHq req, res
 
-router.get '/getMbrBefore', (req, res) ->
+router.get '/getMbrBefore/:chtIdx', (req, res) ->
   dbwork.getMbrBefore req, res
 
-router.get '/getMbrAfter', (req, res) ->
+router.get '/getMbrAfter/:chtIdx', (req, res) ->
   dbwork.getMbrAfter req, res
+
+router.post '/insertMbr', (req, res) ->
+  dbwork.insertHq req, res
 
 module.exports = router

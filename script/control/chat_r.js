@@ -20,12 +20,16 @@ router.post('/insertHq', function(req, res) {
   return dbwork.insertHq(req, res);
 });
 
-router.get('/getMbrBefore', function(req, res) {
+router.get('/getMbrBefore/:chtIdx', function(req, res) {
   return dbwork.getMbrBefore(req, res);
 });
 
-router.get('/getMbrAfter', function(req, res) {
+router.get('/getMbrAfter/:chtIdx', function(req, res) {
   return dbwork.getMbrAfter(req, res);
+});
+
+router.post('/insertMbr', function(req, res) {
+  return dbwork.insertHq(req, res);
 });
 
 module.exports = router;
