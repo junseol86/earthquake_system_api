@@ -56,16 +56,16 @@ dbwork = {
     rh = req.headers
     firstQuery = 'SELECT * FROM eq_chat
       WHERE (
-      cht_to = 0 OR cht_to_team = ? OR cht_to = ?
+      cht_to = 0 OR cht_to_team = ? OR cht_to = ? OR cht_from_idx = ?
       ) ORDER BY cht_idx DESC LIMIT 30'
-    firstParam = [rh.cht_to_team, rh.cht_to]
+    firstParam = [rh.cht_to_team, rh.mbr_idx, rh.mbr_idx]
     laterQuery = 'SELECT * FROM eq_chat 
       WHERE cht_idx < ? 
       AND (
-      cht_to = 0 OR cht_to_team = ? OR cht_to = ?
+      cht_to = 0 OR cht_to_team = ? OR cht_to = ? OR cht_from_idx = ?
       )
       ORDER BY cht_idx DESC LIMIT 30'
-    laterParam = [chtIdx, rh.cht_to_team, rh.cht_to]
+    laterParam = [chtIdx, rh.cht_to_team, rh.mbr_idx, rh.mbr_idx]
     qr = if chtIdx == 0 then firstQuery else laterQuery
     prm = if  chtIdx == 0 then firstParam else laterParam
     db.query res, qr, prm, (results, fields) ->

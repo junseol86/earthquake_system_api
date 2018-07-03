@@ -64,10 +64,10 @@ dbwork = {
     _this = this;
     chtIdx = Number(req.params.chtIdx);
     rh = req.headers;
-    firstQuery = 'SELECT * FROM eq_chat WHERE ( cht_to = 0 OR cht_to_team = ? OR cht_to = ? ) ORDER BY cht_idx DESC LIMIT 30';
-    firstParam = [rh.cht_to_team, rh.cht_to];
-    laterQuery = 'SELECT * FROM eq_chat WHERE cht_idx < ? AND ( cht_to = 0 OR cht_to_team = ? OR cht_to = ? ) ORDER BY cht_idx DESC LIMIT 30';
-    laterParam = [chtIdx, rh.cht_to_team, rh.cht_to];
+    firstQuery = 'SELECT * FROM eq_chat WHERE ( cht_to = 0 OR cht_to_team = ? OR cht_to = ? OR cht_from_idx = ? ) ORDER BY cht_idx DESC LIMIT 30';
+    firstParam = [rh.cht_to_team, rh.mbr_idx, rh.mbr_idx];
+    laterQuery = 'SELECT * FROM eq_chat WHERE cht_idx < ? AND ( cht_to = 0 OR cht_to_team = ? OR cht_to = ? OR cht_from_idx = ? ) ORDER BY cht_idx DESC LIMIT 30';
+    laterParam = [chtIdx, rh.cht_to_team, rh.mbr_idx, rh.mbr_idx];
     qr = chtIdx === 0 ? firstQuery : laterQuery;
     prm = chtIdx === 0 ? firstParam : laterParam;
     return db.query(res, qr, prm, function(results, fields) {
