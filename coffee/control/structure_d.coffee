@@ -34,9 +34,9 @@ dbwork = {
         jwtToken: jwtToken
       }
       insQr = 'INSERT INTO eq_structure
-        (str_branch, str_line, str_name, latitude, longitude)
-        VALUES (?, ?, ?, ?, ?)'
-      db.query res, insQr, [req.body.branch, req.body.line, req.body.name, req.body.lat, req.body.lng], (results, fields) ->
+        (str_branch, str_line, str_name, str_order, latitude, longitude)
+        VALUES (?, ?, ?, ?, ?, ?)'
+      db.query res, insQr, [req.body.branch, req.body.line, req.body.name, req.body.order, req.body.lat, req.body.lng], (results, fields) ->
         result.success = results.affectedRows > 0
         if !result.success
           res.send result
@@ -53,9 +53,9 @@ dbwork = {
         jwtToken: jwtToken
       }
       modQr = 'UPDATE eq_structure SET
-        str_branch = ?, str_line = ?, str_name = ?, latitude = ?, longitude = ?
+        str_branch = ?, str_line = ?, str_name = ?, str_order = ?, latitude = ?, longitude = ?
         WHERE str_idx = ?'
-      db.query res, modQr, [req.body.str_branch, req.body.str_line, req.body.str_name, req.body.latitude, req.body.longitude, req.body.str_idx], (results, fields) ->
+      db.query res, modQr, [req.body.str_branch, req.body.str_line, req.body.str_name, req.body.str_order, req.body.latitude, req.body.longitude, req.body.str_idx], (results, fields) ->
         result.success = results.affectedRows > 0
         if !result.success
           res.send result

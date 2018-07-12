@@ -22,7 +22,13 @@ router.get '/getList', (req, res) ->
 router.put '/changeTeam', (req, res) ->
   dbwork.changeTeam req, res
 
+router.put '/setFcmToken', (req, res) ->
+  dbwork.setFcmToken req, res
+
 router.post '/delete', (req, res) ->
   dbwork.delete req, res
+
+router.post '/notifyTeam', (req, res) ->
+  dbwork.notifyTeam req, res
 
 module.exports = router

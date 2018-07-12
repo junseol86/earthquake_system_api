@@ -6,16 +6,6 @@
     "auditLog": "logs/.audit.json",
     "files": [
         {
-            "date": 1530028518966,
-            "name": "logs/z_2018-06-27-00-combined.log",
-            "hash": "570398f0687c2e99a070e97e0c2a52e8"
-        },
-        {
-            "date": 1530028518968,
-            "name": "logs/z_2018-06-27-00-error.log",
-            "hash": "e0bf7bed0a01d8eab524dd3758d5d8b2"
-        },
-        {
             "date": 1530379364984,
             "name": "logs/z_2018-07-01-02-combined.log",
             "hash": "f09fb761f130bf0ec3b9988271435409"
@@ -339,6 +329,396 @@
             "date": 1530455554859,
             "name": "logs/z_2018-07-01-23-error.log",
             "hash": "773e4b0e027f8f48294e79d4f3314714"
+        },
+        {
+            "date": 1530802650269,
+            "name": "logs/z_2018-07-05-23-combined.log",
+            "hash": "11e2dffd2d5f2c242d74828fc9a76c8a"
+        },
+        {
+            "date": 1530802650272,
+            "name": "logs/z_2018-07-05-23-error.log",
+            "hash": "8305e8e1b1c3abd08352ac20746313dc"
+        },
+        {
+            "date": 1530802887949,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "666027cbc44a6393ad0fe1f2017735f6"
+        },
+        {
+            "date": 1530802887952,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "bb2d74115634476be84a33da0941fd22"
+        },
+        {
+            "date": 1530802990457,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "7dc58b11e522dada816a03ecc49be5a8"
+        },
+        {
+            "date": 1530802990460,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "b22ef683a6c68ce4b1760f6c0951b4c5"
+        },
+        {
+            "date": 1530803318954,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "472151bf008d1cb63b6357aa26a6d8a8"
+        },
+        {
+            "date": 1530803318957,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "b513b5cba01053b62b858a0265ba9930"
+        },
+        {
+            "date": 1530803401636,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "a2489789b0f79fd5589708877f62b27c"
+        },
+        {
+            "date": 1530803401638,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "15298360af199a20db03a6791f6708b4"
+        },
+        {
+            "date": 1530803477771,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "1428f558d22fa55fc64d187be0cd8092"
+        },
+        {
+            "date": 1530803477773,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "921e2829dbfae28f79e74edf20225482"
+        },
+        {
+            "date": 1530803581705,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "1f8082007f5140dff565c118b6f839ad"
+        },
+        {
+            "date": 1530803581707,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "96be53c3431399ec52a69563bc19de5f"
+        },
+        {
+            "date": 1530803747659,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "c098febcf0d78fcff0bcc2fcc2335bdf"
+        },
+        {
+            "date": 1530803747661,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "5e2bb197bc0f7d181ebb99f1fa9551fc"
+        },
+        {
+            "date": 1530804253731,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "791b299a97cdf43c64dd1d39c310d7c6"
+        },
+        {
+            "date": 1530804253734,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "f4ec639ab7fdf0cb1e0df153a32e58fb"
+        },
+        {
+            "date": 1530804283432,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "544d68c79a66098e87e58b964cf5d255"
+        },
+        {
+            "date": 1530804283434,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "2a50a4e617573a5d93e7f86f81df4074"
+        },
+        {
+            "date": 1530804409051,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "26305f069feb8d410ab007e30ddfd3b9"
+        },
+        {
+            "date": 1530804409053,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "f6752ed07593b051f063c6ddd6c13921"
+        },
+        {
+            "date": 1530804535537,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "70dadf8215e5dacc6c7556aa96becb40"
+        },
+        {
+            "date": 1530804535540,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "ef1bd6e3cb20e73c0d2b9caa6906be57"
+        },
+        {
+            "date": 1530804587690,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "b3f7db2911d3cce35ebcdff411643b35"
+        },
+        {
+            "date": 1530804587692,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "334af56a2b32956ec735864334780ed3"
+        },
+        {
+            "date": 1530804744223,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "b0d290cda6526e17e59e616cd05dd496"
+        },
+        {
+            "date": 1530804744225,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "0e369989ec278a5e82132e4362e58c48"
+        },
+        {
+            "date": 1530804982926,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "adbc6bf59feddad2757bf10fcb9406ff"
+        },
+        {
+            "date": 1530804982928,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "2caa8e0862b5ac86f8ee3de6983fa444"
+        },
+        {
+            "date": 1530805020020,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "a59a61242cc0d54472322f05d4134c7a"
+        },
+        {
+            "date": 1530805020022,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "49bd27c359e0b93c37481b80c2ea528c"
+        },
+        {
+            "date": 1530805695055,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "cf49ebe7286adf64f494c2565097df45"
+        },
+        {
+            "date": 1530805695057,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "31659f6961178dae58cf4720ad3c71ca"
+        },
+        {
+            "date": 1530805728326,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "1022bddec12c068786b32bc891f2ba2c"
+        },
+        {
+            "date": 1530805728329,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "cd05d2925dbe882febc6ea829f566551"
+        },
+        {
+            "date": 1530805783489,
+            "name": "logs/z_2018-07-06-00-combined.log",
+            "hash": "5df14c2c06da768d09aeb6d3a9f6f5cf"
+        },
+        {
+            "date": 1530805783491,
+            "name": "logs/z_2018-07-06-00-error.log",
+            "hash": "863e8b54a2ec5ea0bcaa7b99886c0a36"
+        },
+        {
+            "date": 1530809280027,
+            "name": "logs/z_2018-07-06-01-combined.log",
+            "hash": "2ee78a8ba93dfd94ea76584cb851a9da"
+        },
+        {
+            "date": 1530809280029,
+            "name": "logs/z_2018-07-06-01-error.log",
+            "hash": "253f0302a330ebef05892c317eb39b12"
+        },
+        {
+            "date": 1530810197885,
+            "name": "logs/z_2018-07-06-02-combined.log",
+            "hash": "968be9075feeb2968b1dd2c33908a070"
+        },
+        {
+            "date": 1530810197886,
+            "name": "logs/z_2018-07-06-02-error.log",
+            "hash": "c7a2c96b8d6fdbd7434325b7a9449ff0"
+        },
+        {
+            "date": 1530810260783,
+            "name": "logs/z_2018-07-06-02-combined.log",
+            "hash": "20ec2002c6d9593315720d6eb827fb21"
+        },
+        {
+            "date": 1530810260785,
+            "name": "logs/z_2018-07-06-02-error.log",
+            "hash": "fe152c9face9e736c07336b106a4d2df"
+        },
+        {
+            "date": 1530810315856,
+            "name": "logs/z_2018-07-06-02-combined.log",
+            "hash": "61791efd9fcbc2b770ab8b35ad723c0c"
+        },
+        {
+            "date": 1530810315858,
+            "name": "logs/z_2018-07-06-02-error.log",
+            "hash": "d486938fb61009aa14fbecb86fe1a718"
+        },
+        {
+            "date": 1530810407335,
+            "name": "logs/z_2018-07-06-02-combined.log",
+            "hash": "1c005d8312477e323285277203a67ea1"
+        },
+        {
+            "date": 1530810407337,
+            "name": "logs/z_2018-07-06-02-error.log",
+            "hash": "933b410911ae96dad89bf95acda2359b"
+        },
+        {
+            "date": 1530810533489,
+            "name": "logs/z_2018-07-06-02-combined.log",
+            "hash": "f7f95ff1475b1dcaa96cdcd1b721a83a"
+        },
+        {
+            "date": 1530810533491,
+            "name": "logs/z_2018-07-06-02-error.log",
+            "hash": "e7526d86f20544195b0483522a4b551d"
+        },
+        {
+            "date": 1530810575521,
+            "name": "logs/z_2018-07-06-02-combined.log",
+            "hash": "384f3a1d3bbd5bc528e8671ab5061021"
+        },
+        {
+            "date": 1530810575523,
+            "name": "logs/z_2018-07-06-02-error.log",
+            "hash": "602a0bde0e16eb4be7ba9b79347638b3"
+        },
+        {
+            "date": 1530810682329,
+            "name": "logs/z_2018-07-06-02-combined.log",
+            "hash": "661bb2a53a5f874d513087d18cc14594"
+        },
+        {
+            "date": 1530810682331,
+            "name": "logs/z_2018-07-06-02-error.log",
+            "hash": "70c752f72c71fb8ea6ad12b05f9bed5f"
+        },
+        {
+            "date": 1530810735950,
+            "name": "logs/z_2018-07-06-02-combined.log",
+            "hash": "48fb63223d1b5dbb041722098ef83fe1"
+        },
+        {
+            "date": 1530810735952,
+            "name": "logs/z_2018-07-06-02-error.log",
+            "hash": "b27369256e6b5cf15f182696e7f3fc69"
+        },
+        {
+            "date": 1530810788892,
+            "name": "logs/z_2018-07-06-02-combined.log",
+            "hash": "8623e1079ad92680edff03c5b8a40774"
+        },
+        {
+            "date": 1530810788895,
+            "name": "logs/z_2018-07-06-02-error.log",
+            "hash": "46cacff6a749d9688c28b56a7ac2b8bd"
+        },
+        {
+            "date": 1530810819707,
+            "name": "logs/z_2018-07-06-02-combined.log",
+            "hash": "82dbbef39b4af7c59475d3a3b5a933f0"
+        },
+        {
+            "date": 1530810819709,
+            "name": "logs/z_2018-07-06-02-error.log",
+            "hash": "727054507380802b30b1da72638c0999"
+        },
+        {
+            "date": 1530810857305,
+            "name": "logs/z_2018-07-06-02-combined.log",
+            "hash": "11cb506c15489ebb9c2a674328c07f10"
+        },
+        {
+            "date": 1530810857308,
+            "name": "logs/z_2018-07-06-02-error.log",
+            "hash": "1b70ef8006bbdf39cf278c7221e2a410"
+        },
+        {
+            "date": 1530810904339,
+            "name": "logs/z_2018-07-06-02-combined.log",
+            "hash": "a40e908ea57c94ff1bea0896f1e22cb1"
+        },
+        {
+            "date": 1530810904341,
+            "name": "logs/z_2018-07-06-02-error.log",
+            "hash": "2028f3f289ddf9c761fae3bf0f215a41"
+        },
+        {
+            "date": 1530810954771,
+            "name": "logs/z_2018-07-06-02-combined.log",
+            "hash": "9ddbe560d4b89ea7356a73ff36704d52"
+        },
+        {
+            "date": 1530810954773,
+            "name": "logs/z_2018-07-06-02-error.log",
+            "hash": "5a7e282f2273e068280e4a4f54550dbf"
+        },
+        {
+            "date": 1531230014359,
+            "name": "logs/z_2018-07-10-22-combined.log",
+            "hash": "6a478828da9cba9043865ecee07bd141"
+        },
+        {
+            "date": 1531230014361,
+            "name": "logs/z_2018-07-10-22-error.log",
+            "hash": "eb33211333e3c3aed85b68d1a4d5fb16"
+        },
+        {
+            "date": 1531323750168,
+            "name": "logs/z_2018-07-12-00-combined.log",
+            "hash": "f89eb1faef7dd7ba58ed67ef86b4690b"
+        },
+        {
+            "date": 1531323750172,
+            "name": "logs/z_2018-07-12-00-error.log",
+            "hash": "ecb52fe0a35ce728891bdc30e34bbfc6"
+        },
+        {
+            "date": 1531323885650,
+            "name": "logs/z_2018-07-12-00-combined.log",
+            "hash": "85084dfded93860bd57453cfd791c194"
+        },
+        {
+            "date": 1531323885653,
+            "name": "logs/z_2018-07-12-00-error.log",
+            "hash": "524312965b449f7851370b4f42c16dc1"
+        },
+        {
+            "date": 1531323933544,
+            "name": "logs/z_2018-07-12-00-combined.log",
+            "hash": "f296d2b03c6c673fb7174828554c5f62"
+        },
+        {
+            "date": 1531323933546,
+            "name": "logs/z_2018-07-12-00-error.log",
+            "hash": "0ae51076c96465f259e0c3cf9d7f4ce1"
+        },
+        {
+            "date": 1531323977427,
+            "name": "logs/z_2018-07-12-00-combined.log",
+            "hash": "3e766eaa27720a73291309815b20c102"
+        },
+        {
+            "date": 1531323977430,
+            "name": "logs/z_2018-07-12-00-error.log",
+            "hash": "b61bcc3103f6d245100f9388c3cf2ccd"
+        },
+        {
+            "date": 1531324680894,
+            "name": "logs/z_2018-07-12-00-combined.log",
+            "hash": "60a85ca88a3072ba2bc150e52bbb37d5"
+        },
+        {
+            "date": 1531324680896,
+            "name": "logs/z_2018-07-12-00-error.log",
+            "hash": "9d749bb6b4a6e11d340322f1db177789"
         }
     ]
 }

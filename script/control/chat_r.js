@@ -29,7 +29,11 @@ router.get('/getMbrAfter/:chtIdx', function(req, res) {
 });
 
 router.post('/insertMbr', function(req, res) {
-  return dbwork.insertHq(req, res);
+  return dbwork.insertMbr(req, res);
+});
+
+router.get('/fcmtest', function(req, res) {
+  return dbwork.sendFCM(req, res);
 });
 
 module.exports = router;

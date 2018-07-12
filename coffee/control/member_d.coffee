@@ -4,6 +4,7 @@ secret = require '../tool/secret'
 jwt = require 'jsonwebtoken';
 winston = require '../tool/winston'
 code = require './code_d'
+fcm = require './../tool/fcm'
 
 dbwork = {
 
@@ -142,6 +143,19 @@ dbwork = {
         result.success = results.affectedRows > 0
         res.send result
 
+  # 멤버 FCM 토큰 설정
+  setFcmToken: (req, res) ->
+    _this = this
+    _this.tokenCheck req, res, (jwtToken) ->
+      result = {
+        jwtToken: jwtToken
+      }
+      setStr = "UPDATE eq_member SET mbr_fcm = ?
+        WHERE mbr_idx = ?"
+      db.query res, setStr, [req.body.mbr_fcm, req.body.mbr_idx], (results, fields) ->
+        result.success = results.affectedRows > 0
+        res.send result
+
   # 멤버 삭제
   delete: (req, res) ->
     _this = this
@@ -153,6 +167,24 @@ dbwork = {
       db.query res, delQr, [req.body.mbr_idx], (results, fields) ->
         result.success = results.affectedRows > 0
         res.send result
+
+  # 조 구성 알림
+  notifyTeam: (req, res) ->
+    _this = this
+    _this.tokenCheck req, res, (jwtToken) ->
+      result = {
+        jwtToken: jwtToken
+      }
+      ntfStr = "SELECT * FROM eq_member"
+      db.query res, ntfStr, [], (results, fields) ->
+        results.map (mbr) ->
+          if mbr.mbr_fcm.length > 0
+            teamStr = '조가 배정되지 않았습니다.'
+            if mbr.mbr_team > 0
+              teamStr = mbr.mbr_team + '조입니다.'
+            fcm.sendFCM mbr.mbr_fcm, 'team', '조 구성 변경', teamStr
+        res.send result
+
 
 }
 

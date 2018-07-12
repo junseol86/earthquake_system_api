@@ -1,4 +1,4 @@
-var code, db, dbwork, jwt, secret, util, winston;
+var code, db, dbwork, fcm, jwt, secret, util, winston;
 
 db = require('../tool/mysql');
 
@@ -11,6 +11,8 @@ jwt = require('jsonwebtoken');
 winston = require('../tool/winston');
 
 code = require('./code_d');
+
+fcm = require('./../tool/fcm');
 
 dbwork = {
   // 토큰(테이블에 저장되는 값) JWT 토큰 구분할 것
@@ -181,6 +183,22 @@ dbwork = {
       });
     });
   },
+  // 멤버 FCM 토큰 설정
+  setFcmToken: function(req, res) {
+    var _this;
+    _this = this;
+    return _this.tokenCheck(req, res, function(jwtToken) {
+      var result, setStr;
+      result = {
+        jwtToken: jwtToken
+      };
+      setStr = "UPDATE eq_member SET mbr_fcm = ? WHERE mbr_idx = ?";
+      return db.query(res, setStr, [req.body.mbr_fcm, req.body.mbr_idx], function(results, fields) {
+        result.success = results.affectedRows > 0;
+        return res.send(result);
+      });
+    });
+  },
   // 멤버 삭제
   delete: function(req, res) {
     var _this;
@@ -193,6 +211,31 @@ dbwork = {
       delQr = 'DELETE FROM eq_member WHERE mbr_idx = ?';
       return db.query(res, delQr, [req.body.mbr_idx], function(results, fields) {
         result.success = results.affectedRows > 0;
+        return res.send(result);
+      });
+    });
+  },
+  // 조 구성 알림
+  notifyTeam: function(req, res) {
+    var _this;
+    _this = this;
+    return _this.tokenCheck(req, res, function(jwtToken) {
+      var ntfStr, result;
+      result = {
+        jwtToken: jwtToken
+      };
+      ntfStr = "SELECT * FROM eq_member";
+      return db.query(res, ntfStr, [], function(results, fields) {
+        results.map(function(mbr) {
+          var teamStr;
+          if (mbr.mbr_fcm.length > 0) {
+            teamStr = '조가 배정되지 않았습니다.';
+            if (mbr.mbr_team > 0) {
+              teamStr = mbr.mbr_team + '조입니다.';
+            }
+            return fcm.sendFCM(mbr.mbr_fcm, 'team', '조 구성 변경', teamStr);
+          }
+        });
         return res.send(result);
       });
     });

@@ -34,8 +34,16 @@ router.put('/changeTeam', function(req, res) {
   return dbwork.changeTeam(req, res);
 });
 
+router.put('/setFcmToken', function(req, res) {
+  return dbwork.setFcmToken(req, res);
+});
+
 router.post('/delete', function(req, res) {
   return dbwork.delete(req, res);
+});
+
+router.post('/notifyTeam', function(req, res) {
+  return dbwork.notifyTeam(req, res);
 });
 
 module.exports = router;

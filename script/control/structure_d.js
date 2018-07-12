@@ -46,8 +46,8 @@ dbwork = {
       result = {
         jwtToken: jwtToken
       };
-      insQr = 'INSERT INTO eq_structure (str_branch, str_line, str_name, latitude, longitude) VALUES (?, ?, ?, ?, ?)';
-      return db.query(res, insQr, [req.body.branch, req.body.line, req.body.name, req.body.lat, req.body.lng], function(results, fields) {
+      insQr = 'INSERT INTO eq_structure (str_branch, str_line, str_name, str_order, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?)';
+      return db.query(res, insQr, [req.body.branch, req.body.line, req.body.name, req.body.order, req.body.lat, req.body.lng], function(results, fields) {
         result.success = results.affectedRows > 0;
         if (!result.success) {
           return res.send(result);
@@ -69,8 +69,8 @@ dbwork = {
       result = {
         jwtToken: jwtToken
       };
-      modQr = 'UPDATE eq_structure SET str_branch = ?, str_line = ?, str_name = ?, latitude = ?, longitude = ? WHERE str_idx = ?';
-      return db.query(res, modQr, [req.body.str_branch, req.body.str_line, req.body.str_name, req.body.latitude, req.body.longitude, req.body.str_idx], function(results, fields) {
+      modQr = 'UPDATE eq_structure SET str_branch = ?, str_line = ?, str_name = ?, str_order = ?, latitude = ?, longitude = ? WHERE str_idx = ?';
+      return db.query(res, modQr, [req.body.str_branch, req.body.str_line, req.body.str_name, req.body.str_order, req.body.latitude, req.body.longitude, req.body.str_idx], function(results, fields) {
         result.success = results.affectedRows > 0;
         if (!result.success) {
           return res.send(result);

@@ -19,6 +19,9 @@ router.get '/getMbrAfter/:chtIdx', (req, res) ->
   dbwork.getMbrAfter req, res
 
 router.post '/insertMbr', (req, res) ->
-  dbwork.insertHq req, res
+  dbwork.insertMbr req, res
+
+router.get '/fcmtest', (req, res) ->
+  dbwork.sendFCM req, res
 
 module.exports = router
