@@ -1,6 +1,7 @@
 db = require '../tool/mysql'
 member = require './member_d'
 util = require './../tool/util'
+fcm = require './../tool/fcm'
 
 dbwork = {
 
@@ -65,6 +66,22 @@ dbwork = {
             result.success = results.affectedRows > 0
             res.send result
 
+  #지진 알림 보내기
+  sendEqNotification: (req, res) ->
+    _this = this
+    member.tokenCheck req, res, (jwtToken) ->
+      result = {
+        jwtToken: jwtToken
+      }
+      level = if req.body.level == 0 then '자체대응' else if req.body.level == 1 then '대응 1단계' else '대응 2단계'
+      type = if req.body.type == 'inland' then '내륙' else '해역'
+      ntfStr = "SELECT * FROM eq_member"
+      db.query res, ntfStr, [], (results, fields) ->
+        results.map (mbr) ->
+          if mbr.mbr_fcm.length > 0
+            fcm.sendFCM mbr.mbr_fcm, 'earthquake', "지진발생 [#{level}]", "#{type} #{req.body.strength}"
+        res.send result
+      
 
 }
     

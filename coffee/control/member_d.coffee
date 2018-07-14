@@ -185,7 +185,6 @@ dbwork = {
             fcm.sendFCM mbr.mbr_fcm, 'team', '조 구성 변경', teamStr
         res.send result
 
-
 }
 
 module.exports = dbwork

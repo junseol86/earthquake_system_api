@@ -24,4 +24,8 @@ router.put('/activeToggle', function(req, res) {
   return dbwork.activeToggle(req, res);
 });
 
+router.post('/sendEqNotification', function(req, res) {
+  return dbwork.sendEqNotification(req, res);
+});
+
 module.exports = router;

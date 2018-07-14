@@ -1,10 +1,12 @@
-var db, dbwork, member, util;
+var db, dbwork, fcm, member, util;
 
 db = require('../tool/mysql');
 
 member = require('./member_d');
 
 util = require('./../tool/util');
+
+fcm = require('./../tool/fcm');
 
 dbwork = {
   // 지진 리스트 다운
@@ -83,6 +85,28 @@ dbwork = {
             return res.send(result);
           });
         }
+      });
+    });
+  },
+  //지진 알림 보내기
+  sendEqNotification: function(req, res) {
+    var _this;
+    _this = this;
+    return member.tokenCheck(req, res, function(jwtToken) {
+      var level, ntfStr, result, type;
+      result = {
+        jwtToken: jwtToken
+      };
+      level = req.body.level === 0 ? '자체대응' : req.body.level === 1 ? '대응 1단계' : '대응 2단계';
+      type = req.body.type === 'inland' ? '내륙' : '해역';
+      ntfStr = "SELECT * FROM eq_member";
+      return db.query(res, ntfStr, [], function(results, fields) {
+        results.map(function(mbr) {
+          if (mbr.mbr_fcm.length > 0) {
+            return fcm.sendFCM(mbr.mbr_fcm, 'earthquake', `지진발생 [${level}]`, `${type} ${req.body.strength}`);
+          }
+        });
+        return res.send(result);
       });
     });
   }

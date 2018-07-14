@@ -15,4 +15,7 @@ router.post '/delete', (req, res) ->
 router.put '/activeToggle', (req, res) ->
   dbwork.activeToggle req, res
 
+router.post '/sendEqNotification', (req, res) ->
+  dbwork.sendEqNotification req, res
+
 module.exports = router
