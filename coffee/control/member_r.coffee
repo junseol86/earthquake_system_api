@@ -31,4 +31,10 @@ router.post '/delete', (req, res) ->
 router.post '/notifyTeam', (req, res) ->
   dbwork.notifyTeam req, res
 
+router.post '/arrivalReport', (req, res) ->
+  dbwork.arrivalReport req, res
+
+router.post '/locationReport', (req, res) ->
+  dbwork.locationReport req, res
+
 module.exports = router

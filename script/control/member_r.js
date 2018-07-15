@@ -46,4 +46,12 @@ router.post('/notifyTeam', function(req, res) {
   return dbwork.notifyTeam(req, res);
 });
 
+router.post('/arrivalReport', function(req, res) {
+  return dbwork.arrivalReport(req, res);
+});
+
+router.post('/locationReport', function(req, res) {
+  return dbwork.locationReport(req, res);
+});
+
 module.exports = router;

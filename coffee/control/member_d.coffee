@@ -185,6 +185,36 @@ dbwork = {
             fcm.sendFCM mbr.mbr_fcm, 'team', '조 구성 변경', teamStr
         res.send result
 
+  # 직원 예상 도착시간 받기
+  arrivalReport: (req, res) ->
+    _this = this
+    _this.tokenCheck req, res, (jwtToken) ->
+      result = {
+        jwtToken: jwtToken
+      }
+      mbrIdx = req.body.mbr_idx
+      arrival = req.body.arrival
+      query = 'UPDATE eq_member SET mbr_arrive_in = ?, mbr_arr_last_report = NOW() WHERE mbr_idx = ?'
+      params = [arrival, mbrIdx]
+      db.query res, query, params, (results, fields) ->
+        result.success = results.affectedRows > 0
+        res.send result
+
+  # 직원 예상 도착시간 받기
+  locationReport: (req, res) ->
+    _this = this
+    _this.tokenCheck req, res, (jwtToken) ->
+      result = {
+        jwtToken: jwtToken
+      }
+      mbrIdx = req.body.mbr_idx
+      latitude = req.body.latitude
+      longitude = req.body.longitude
+      query = 'UPDATE eq_member SET latitude = ?, longitude = ?, mbr_pos_last_report = NOW() WHERE mbr_idx = ?'
+      params = [latitude, longitude, mbrIdx]
+      db.query res, query, params, (results, fields) ->
+        result.success = results.affectedRows > 0
+        res.send result
 }
 
 module.exports = dbwork

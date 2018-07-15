@@ -239,6 +239,45 @@ dbwork = {
         return res.send(result);
       });
     });
+  },
+  // 직원 예상 도착시간 받기
+  arrivalReport: function(req, res) {
+    var _this;
+    _this = this;
+    return _this.tokenCheck(req, res, function(jwtToken) {
+      var arrival, mbrIdx, params, query, result;
+      result = {
+        jwtToken: jwtToken
+      };
+      mbrIdx = req.body.mbr_idx;
+      arrival = req.body.arrival;
+      query = 'UPDATE eq_member SET mbr_arrive_in = ?, mbr_arr_last_report = NOW() WHERE mbr_idx = ?';
+      params = [arrival, mbrIdx];
+      return db.query(res, query, params, function(results, fields) {
+        result.success = results.affectedRows > 0;
+        return res.send(result);
+      });
+    });
+  },
+  // 직원 예상 도착시간 받기
+  locationReport: function(req, res) {
+    var _this;
+    _this = this;
+    return _this.tokenCheck(req, res, function(jwtToken) {
+      var latitude, longitude, mbrIdx, params, query, result;
+      result = {
+        jwtToken: jwtToken
+      };
+      mbrIdx = req.body.mbr_idx;
+      latitude = req.body.latitude;
+      longitude = req.body.longitude;
+      query = 'UPDATE eq_member SET latitude = ?, longitude = ?, mbr_pos_last_report = NOW() WHERE mbr_idx = ?';
+      params = [latitude, longitude, mbrIdx];
+      return db.query(res, query, params, function(results, fields) {
+        result.success = results.affectedRows > 0;
+        return res.send(result);
+      });
+    });
   }
 };
 
