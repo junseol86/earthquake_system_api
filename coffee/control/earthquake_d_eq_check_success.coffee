@@ -5,6 +5,8 @@ fcm = require './../tool/fcm'
 request = require 'request'
 secret = require './../tool/secret'
 parseXml = require('xml2js').parseString
+# xmlParser = require 'xml-parser'
+# xmlParser = require 'xml-js'
 
 dbwork = {
 
@@ -84,17 +86,11 @@ dbwork = {
           if mbr.mbr_fcm.length > 0
             fcm.sendFCM mbr.mbr_fcm, 'earthquake', "지진발생 [#{level}]", "#{type} #{req.body.strength}"
         res.send result
-
-  # 지진체킹 돌고 있는지 확인하는 지표
-  checkEqCount: 0
       
-  # 새 지진 여부 체크
   checkEq: () ->
-    this.checkEqCount = (this.checkEqCount + 1) % 100
     today = new Date()
     _3DaysAgo = new Date()
-    _3DaysAgo.setDate(today.getDate() - 3)
-    today.setDate(today.getDate() + 1)
+    _3DaysAgo.setDate(today.getDate() - 30)
     eqFrom = "#{_3DaysAgo.getFullYear()}#{if _3DaysAgo.getMonth() > 8 then '' else '0'}#{_3DaysAgo.getMonth() + 1}#{if _3DaysAgo.getDate() > 9 then '' else '0'}#{_3DaysAgo.getDate()}"
     eqTo = "#{today.getFullYear()}#{if today.getMonth() > 8 then '' else '0'}#{today.getMonth() + 1}#{if today.getDate() > 9 then '' else '0'}#{today.getDate()}"
     url = "http://newsky2.kma.go.kr/service/ErthqkInfoService/EarthquakeReport?
@@ -106,97 +102,30 @@ dbwork = {
       &fromTmFc=#{eqFrom}
       &toTmFc=#{eqTo}"
       .replace(/\s/g,'')
-    # console.log url
+    console.log url
     request {
       url: url,
       method: 'GET'
     }, (error, response, body) -> 
 
       bodyStr = body
-      # bodyStr = secret.sampleResponse2
+      # bodyStr = secret.sampleResponse
 
       parseXml bodyStr, (error, result) ->
         data = result.response.body[0]
-        # console.log data
+        console.log data
         totalCount = Number(data.totalCount[0])
-
-        if totalCount == 0
-          return
-        # 3일 내 발생한 지진이 있다면
-
-        item = data.items[0].item[0]
-        # console.log item
-        eqObj = {
-          eq_tm_fc: item.tmFc[0]
-          eq_type: if item.loc[0].includes('해역') then 'waters' else 'inland'
-          eq_strength: item.mt[0]
-          latitude: item.lat[0]
-          longitude: item.lon[0]
-        }
-
-        latitudeNum = Number(eqObj.latitude)
-        longitudeNum = Number(eqObj.longitude)
-
-        if !(38.47722 > latitudeNum > 33.6586) || !(130.9597 > longitudeNum > 123.1278)
-          return
-
-        #  대처해야 하는 강도의 지진 여부
-        weak = false
-        if eqObj.eq_strength < 3.5 || (eqObj.eq_type == 'waters' && eqObj.eq_strength < 4)
-          weak = true
-
-        # 테이블에 저장된 지진인지 확인
-        qrStr = "SELECT COUNT(*) as count FROM #{if weak then 'eq_earthquake_weak' else 'eq_earthquake'} WHERE eq_tm_fc = ?"
-        db.query null, qrStr, [eqObj.eq_tm_fc], (results, fields) ->
-          found = results[0].count
-
-          if found > 0 
-            return
-          # 새로운 지진이라면 테이블에 저장
-
-          udtStr = "UPDATE eq_earthquake SET eq_active = 0 #{if weak then 'WHERE eq_idx = -1' else ''}"
-          db.query null, udtStr, [], (results, params) ->
-
-            insStr = "INSERT INTO #{if weak then 'eq_earthquake_weak' else 'eq_earthquake'}
-              (eq_active, eq_type, eq_strength, latitude, longitude, eq_tm_fc)
-              VALUES (1, ?, ?, ?, ?, ?)"
-            insPrms = [eqObj.eq_type, eqObj.eq_strength, eqObj.latitude, eqObj.longitude, eqObj.eq_tm_fc]
-            db.query null, insStr, insPrms, (results, fields) ->
-              insSuccess = results.affectedRows > 0
-
-              if !insSuccess
-                return
-              # 저장에 성공했다면
-
-              if weak
-                return
-              # 그리고 대처해야 하는 강도의 지진이라면 신호 보냄
-
-              level = ''
-              type = ''
-              if eqObj.eq_type == 'inland'
-                type = '내륙'
-                if 3.5 <= eqObj.eq_strength < 4
-                  level = '자체대응'
-                if 4 <= eqObj.eq_strength < 5
-                  level = '대응 1단계'
-                if eqObj.eq_strength >= 5
-                  level = '대응 2단계'
-
-              if eqObj.eq_type == 'waters'
-                type = '해역'
-                if 4 <= eqObj.eq_strength < 4.5
-                  level = '자체대응'
-                if 4.5 <= eqObj.eq_strength < 5.5
-                  level = '대응 1단계'
-                if eqObj.eq_strength >= 5.5
-                  level = '대응 2단계'
-
-              ntfStr = "SELECT * FROM eq_member"
-              db.query null, ntfStr, [], (results, fields) ->
-                results.map (mbr) ->
-                  if mbr.mbr_fcm.length > 0
-                    fcm.sendFCM mbr.mbr_fcm, 'earthquake', "지진발생 [#{level}]", "#{type} #{eqObj.eq_strength}"
+        if totalCount > 0
+          item = data.items[0].item[0]
+          console.log item
+          eqObj = {
+            eq_tm_fc: item.tmFc[0]
+            eq_type: if item.loc[0].includes('해역') then 'waters' else 'inland'
+            eq_strength: item.mt[0]
+            latitude: item.lat[0]
+            longitude: item.lon[0]
+          }
+          console.log eqObj
 
 }
     

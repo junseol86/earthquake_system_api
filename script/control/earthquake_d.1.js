@@ -14,6 +14,8 @@ secret = require('./../tool/secret');
 
 parseXml = require('xml2js').parseString;
 
+// xmlParser = require 'xml-parser'
+// xmlParser = require 'xml-js'
 dbwork = {
   // 지진 리스트 다운
   getList: function(req, res) {
@@ -116,118 +118,39 @@ dbwork = {
       });
     });
   },
-  // 지진체킹 돌고 있는지 확인하는 지표
-  checkEqCount: 0,
-  
-  // 새 지진 여부 체크
   checkEq: function() {
     var _3DaysAgo, eqFrom, eqTo, today, url;
-    this.checkEqCount = (this.checkEqCount + 1) % 100;
     today = new Date();
     _3DaysAgo = new Date();
-    _3DaysAgo.setDate(today.getDate() - 3);
-    today.setDate(today.getDate() + 1);
+    _3DaysAgo.setDate(today.getDate() - 30);
     eqFrom = `${_3DaysAgo.getFullYear()}${(_3DaysAgo.getMonth() > 8 ? '' : '0')}${_3DaysAgo.getMonth() + 1}${(_3DaysAgo.getDate() > 9 ? '' : '0')}${_3DaysAgo.getDate()}`;
     eqTo = `${today.getFullYear()}${(today.getMonth() > 8 ? '' : '0')}${today.getMonth() + 1}${(today.getDate() > 9 ? '' : '0')}${today.getDate()}`;
     url = `http://newsky2.kma.go.kr/service/ErthqkInfoService/EarthquakeReport? serviceKey=${secret.dataKrKey} &numOfRows=${10} &pageSize=${10} &pageNo=${1} &startPage=${1} &fromTmFc=${eqFrom} &toTmFc=${eqTo}`.replace(/\s/g, '');
-    // console.log url
+    console.log(url);
     return request({
       url: url,
       method: 'GET'
     }, function(error, response, body) {
       var bodyStr;
       bodyStr = body;
-      // bodyStr = secret.sampleResponse2
+      // bodyStr = secret.sampleResponse
       return parseXml(bodyStr, function(error, result) {
-        var data, eqObj, item, latitudeNum, longitudeNum, qrStr, totalCount, weak;
+        var data, eqObj, item, totalCount;
         data = result.response.body[0];
-        // console.log data
+        console.log(data);
         totalCount = Number(data.totalCount[0]);
-        if (totalCount === 0) {
-          return;
+        if (totalCount > 0) {
+          item = data.items[0].item[0];
+          console.log(item);
+          eqObj = {
+            eq_tm_fc: item.tmFc[0],
+            eq_type: item.loc[0].includes('해역') ? 'waters' : 'inland',
+            eq_strength: item.mt[0],
+            latitude: item.lat[0],
+            longitude: item.lon[0]
+          };
+          return console.log(eqObj);
         }
-        // 3일 내 발생한 지진이 있다면
-        item = data.items[0].item[0];
-        // console.log item
-        eqObj = {
-          eq_tm_fc: item.tmFc[0],
-          eq_type: item.loc[0].includes('해역') ? 'waters' : 'inland',
-          eq_strength: item.mt[0],
-          latitude: item.lat[0],
-          longitude: item.lon[0]
-        };
-        latitudeNum = Number(eqObj.latitude);
-        longitudeNum = Number(eqObj.longitude);
-        if (!((38.47722 > latitudeNum && latitudeNum > 33.6586)) || !((130.9597 > longitudeNum && longitudeNum > 123.1278))) {
-          return;
-        }
-        //  대처해야 하는 강도의 지진 여부
-        weak = false;
-        if (eqObj.eq_strength < 3.5 || (eqObj.eq_type === 'waters' && eqObj.eq_strength < 4)) {
-          weak = true;
-        }
-        // 테이블에 저장된 지진인지 확인
-        qrStr = `SELECT COUNT(*) as count FROM ${(weak ? 'eq_earthquake_weak' : 'eq_earthquake')} WHERE eq_tm_fc = ?`;
-        return db.query(null, qrStr, [eqObj.eq_tm_fc], function(results, fields) {
-          var found, udtStr;
-          found = results[0].count;
-          if (found > 0) {
-            return;
-          }
-          // 새로운 지진이라면 테이블에 저장
-          udtStr = `UPDATE eq_earthquake SET eq_active = 0 ${(weak ? 'WHERE eq_idx = -1' : '')}`;
-          return db.query(null, udtStr, [], function(results, params) {
-            var insPrms, insStr;
-            insStr = `INSERT INTO ${(weak ? 'eq_earthquake_weak' : 'eq_earthquake')} (eq_active, eq_type, eq_strength, latitude, longitude, eq_tm_fc) VALUES (1, ?, ?, ?, ?, ?)`;
-            insPrms = [eqObj.eq_type, eqObj.eq_strength, eqObj.latitude, eqObj.longitude, eqObj.eq_tm_fc];
-            return db.query(null, insStr, insPrms, function(results, fields) {
-              var insSuccess, level, ntfStr, ref, ref1, ref2, ref3, type;
-              insSuccess = results.affectedRows > 0;
-              if (!insSuccess) {
-                return;
-              }
-              // 저장에 성공했다면
-              if (weak) {
-                return;
-              }
-              // 그리고 대처해야 하는 강도의 지진이라면 신호 보냄
-              level = '';
-              type = '';
-              if (eqObj.eq_type === 'inland') {
-                type = '내륙';
-                if ((3.5 <= (ref = eqObj.eq_strength) && ref < 4)) {
-                  level = '자체대응';
-                }
-                if ((4 <= (ref1 = eqObj.eq_strength) && ref1 < 5)) {
-                  level = '대응 1단계';
-                }
-                if (eqObj.eq_strength >= 5) {
-                  level = '대응 2단계';
-                }
-              }
-              if (eqObj.eq_type === 'waters') {
-                type = '해역';
-                if ((4 <= (ref2 = eqObj.eq_strength) && ref2 < 4.5)) {
-                  level = '자체대응';
-                }
-                if ((4.5 <= (ref3 = eqObj.eq_strength) && ref3 < 5.5)) {
-                  level = '대응 1단계';
-                }
-                if (eqObj.eq_strength >= 5.5) {
-                  level = '대응 2단계';
-                }
-              }
-              ntfStr = "SELECT * FROM eq_member";
-              return db.query(null, ntfStr, [], function(results, fields) {
-                return results.map(function(mbr) {
-                  if (mbr.mbr_fcm.length > 0) {
-                    return fcm.sendFCM(mbr.mbr_fcm, 'earthquake', `지진발생 [${level}]`, `${type} ${eqObj.eq_strength}`);
-                  }
-                });
-              });
-            });
-          });
-        });
       });
     });
   }

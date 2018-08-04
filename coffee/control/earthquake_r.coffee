@@ -18,4 +18,7 @@ router.put '/activeToggle', (req, res) ->
 router.post '/sendEqNotification', (req, res) ->
   dbwork.sendEqNotification req, res
 
+router.get '/runningCheck', (req, res) ->
+  res.send [dbwork.checkEqCount]
+
 module.exports = router

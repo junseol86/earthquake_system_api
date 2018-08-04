@@ -1,5 +1,5 @@
 db = require '../tool/mysql'
-member = require './member_d'
+member = require './member_code_d'
 
 dbwork = {
 
@@ -17,6 +17,8 @@ dbwork = {
   # 코드 변경
   modify: (req, res) ->
     _this = this
+    console.log member
+    console.log member.tokenCheck
     member.tokenCheck req, res, (jwtToken) ->
       result = {
         jwtToken: jwtToken

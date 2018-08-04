@@ -2,7 +2,7 @@ var db, dbwork, member;
 
 db = require('../tool/mysql');
 
-member = require('./member_d');
+member = require('./member_code_d');
 
 dbwork = {
   // 코드 받기
@@ -23,6 +23,8 @@ dbwork = {
   modify: function(req, res) {
     var _this;
     _this = this;
+    console.log(member);
+    console.log(member.tokenCheck);
     return member.tokenCheck(req, res, function(jwtToken) {
       var result;
       result = {

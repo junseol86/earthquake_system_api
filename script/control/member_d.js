@@ -1,4 +1,4 @@
-var code, db, dbwork, fcm, jwt, secret, util, winston;
+var code, db, dbwork, fcm, jwt, secret, util;
 
 db = require('../tool/mysql');
 
@@ -7,8 +7,6 @@ util = require('../tool/util');
 secret = require('../tool/secret');
 
 jwt = require('jsonwebtoken');
-
-winston = require('../tool/winston');
 
 code = require('./code_d');
 
@@ -131,7 +129,7 @@ dbwork = {
     jwtToken = req.body.jwtToken;
     return decoded = jwt.verify(jwtToken, secret.jwtSecret, function(error, decoded) {
       if (error) {
-        winston.errorLog('JWT TOKEN ERROR', error.stack);
+        // winston.errorLog 'JWT TOKEN ERROR', error.stack
         return res.status(401).send({
           result: '토큰 에러입니다.  앱을 다시 실행해주세요.'
         });

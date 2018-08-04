@@ -3,16 +3,18 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var winston = require('./script/tool/winston.js');
+// var winston = require('./script/tool/winston.js');
 
 var indexRouter = require('./routes/index');
 var rt_load_str = require('./script/control/load_str_r.js');
 var rt_member = require('./script/control/member_r.js');
-var rt_chat = require('./script/control/chat_r.js');``
+var rt_chat = require('./script/control/chat_r.js');
 var rt_structure = require('./script/control/structure_r.js');
 var rt_earthquake = require('./script/control/earthquake_r.js');
 var rt_code = require('./script/control/code_r.js');
 var rt_spot = require('./script/control/spot_r.js');
+
+var earthquakeD = require('./script/control/earthquake_d.js');
 
 var app = express();
 
@@ -35,6 +37,9 @@ app.use('/earthquake', rt_earthquake);
 app.use('/code', rt_code);
 app.use('/spot', rt_spot);
 
+setInterval(function() {earthquakeD.checkEq()}, 30000);
+// earthquakeD.checkEq()
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -43,7 +48,7 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
-  winston.errorLog('EXPRESS ERROR', err.stack);
+  // winston.errorLog('EXPRESS ERROR', err.stack);
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 

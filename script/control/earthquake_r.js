@@ -28,4 +28,8 @@ router.post('/sendEqNotification', function(req, res) {
   return dbwork.sendEqNotification(req, res);
 });
 
+router.get('/runningCheck', function(req, res) {
+  return res.send([dbwork.checkEqCount]);
+});
+
 module.exports = router;

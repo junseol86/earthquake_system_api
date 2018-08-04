@@ -2,7 +2,7 @@ db = require '../tool/mysql'
 util = require '../tool/util'
 secret = require '../tool/secret'
 jwt = require 'jsonwebtoken';
-winston = require '../tool/winston'
+# winston = require '../tool/winston'
 code = require './code_d'
 fcm = require './../tool/fcm'
 
@@ -98,7 +98,7 @@ dbwork = {
     jwtToken = req.body.jwtToken
     decoded = jwt.verify jwtToken, secret.jwtSecret, (error, decoded) ->
       if error
-        winston.errorLog 'JWT TOKEN ERROR', error.stack
+        # winston.errorLog 'JWT TOKEN ERROR', error.stack
         res.status(401).send {
           result: '토큰 에러입니다.  앱을 다시 실행해주세요.'
         }
