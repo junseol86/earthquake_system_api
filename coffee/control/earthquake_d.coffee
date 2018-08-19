@@ -87,10 +87,12 @@ dbwork = {
 
   # 지진체킹 돌고 있는지 확인하는 지표
   checkEqCount: 0
+  checkEqStr: ''
       
   # 새 지진 여부 체크
   checkEq: () ->
-    this.checkEqCount = (this.checkEqCount + 1) % 100
+    _this = this
+    _this.checkEqCount = (_this.checkEqCount + 1) % 100
     today = new Date()
     _3DaysAgo = new Date()
     _3DaysAgo.setDate(today.getDate() - 3)
@@ -113,6 +115,7 @@ dbwork = {
     }, (error, response, body) -> 
 
       bodyStr = body
+      _this.checkEqStr = "#{_this.checkEqCount} | #{eqFrom} ~ #{eqTo} | #{bodyStr}"
       # bodyStr = secret.sampleResponse2
 
       parseXml bodyStr, (error, result) ->
@@ -133,6 +136,8 @@ dbwork = {
           latitude: item.lat[0]
           longitude: item.lon[0]
         }
+
+        _this.checkEqStr += " | #{JSON.stringify(eqObj)}"
 
         latitudeNum = Number(eqObj.latitude)
         longitudeNum = Number(eqObj.longitude)

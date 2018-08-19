@@ -135,5 +135,5 @@ exports.assignStr = function(eq, strs) {
   });
   outStr = _.orderBy(outStr, ['latitude'], ['desc']);
   inStr = _.orderBy(inStr, ['latitude'], ['desc']);
-  return outStr.concat(inStr);
+  return _.orderBy(outStr.concat(inStr), ['str_need_check', 'str_rpt_prior'], ['desc', 'desc']);
 };

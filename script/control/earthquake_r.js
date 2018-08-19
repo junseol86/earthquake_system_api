@@ -29,7 +29,7 @@ router.post('/sendEqNotification', function(req, res) {
 });
 
 router.get('/runningCheck', function(req, res) {
-  return res.send([dbwork.checkEqCount]);
+  return res.send([dbwork.checkEqStr]);
 });
 
 module.exports = router;

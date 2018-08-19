@@ -118,11 +118,13 @@ dbwork = {
   },
   // 지진체킹 돌고 있는지 확인하는 지표
   checkEqCount: 0,
+  checkEqStr: '',
   
   // 새 지진 여부 체크
   checkEq: function() {
-    var _3DaysAgo, eqFrom, eqTo, today, url;
-    this.checkEqCount = (this.checkEqCount + 1) % 100;
+    var _3DaysAgo, _this, eqFrom, eqTo, today, url;
+    _this = this;
+    _this.checkEqCount = (_this.checkEqCount + 1) % 100;
     today = new Date();
     _3DaysAgo = new Date();
     _3DaysAgo.setDate(today.getDate() - 3);
@@ -137,6 +139,7 @@ dbwork = {
     }, function(error, response, body) {
       var bodyStr;
       bodyStr = body;
+      _this.checkEqStr = `${_this.checkEqCount} | ${eqFrom} ~ ${eqTo} | ${bodyStr}`;
       // bodyStr = secret.sampleResponse2
       return parseXml(bodyStr, function(error, result) {
         var data, eqObj, item, latitudeNum, longitudeNum, qrStr, totalCount, weak;
@@ -156,6 +159,7 @@ dbwork = {
           latitude: item.lat[0],
           longitude: item.lon[0]
         };
+        _this.checkEqStr += ` | ${JSON.stringify(eqObj)}`;
         latitudeNum = Number(eqObj.latitude);
         longitudeNum = Number(eqObj.longitude);
         if (!((38.47722 > latitudeNum && latitudeNum > 33.6586)) || !((130.9597 > longitudeNum && longitudeNum > 123.1278))) {

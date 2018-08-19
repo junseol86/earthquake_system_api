@@ -20,6 +20,14 @@ router.put('/modify', function(req, res) {
   return dbwork.modify(req, res);
 });
 
+router.put('/report', function(req, res) {
+  return dbwork.report(req, res);
+});
+
+router.post('/requestReport', function(req, res) {
+  return dbwork.requestReport(req, res);
+});
+
 router.post('/delete', function(req, res) {
   return dbwork.delete(req, res);
 });

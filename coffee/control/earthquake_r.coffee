@@ -19,6 +19,6 @@ router.post '/sendEqNotification', (req, res) ->
   dbwork.sendEqNotification req, res
 
 router.get '/runningCheck', (req, res) ->
-  res.send [dbwork.checkEqCount]
+  res.send [dbwork.checkEqStr]
 
 module.exports = router

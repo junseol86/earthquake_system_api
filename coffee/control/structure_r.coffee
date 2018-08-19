@@ -12,6 +12,12 @@ router.post '/insert', (req, res) ->
 router.put '/modify', (req, res) ->
   dbwork.modify req, res
 
+router.put '/report', (req, res) ->
+  dbwork.report req, res
+
+router.post '/requestReport', (req, res) ->
+  dbwork.requestReport req, res
+
 router.post '/delete', (req, res) ->
   dbwork.delete req, res
 
