@@ -136,6 +136,29 @@ dbwork = {
         return res.send(result);
       });
     });
+  },
+  // 마지막 문자 파싱 시각
+  lastSmsParsed: null,
+  // 문자파싱알람
+  smsParseAlarm: function(req, res) {
+    var insPrm, insQr, sms;
+    sms = req.body.sms;
+    if (this.lastSmsParsed === null || Math.abs(this.lastSmsParsed - (new Date())) / 3600000.0 * 12.0 > 1) {
+      this.lastSmsParsed = new Date();
+      insQr = 'INSERT INTO eq_chat (cht_from_idx, cht_from_name, cht_to, cht_to_team, cht_to_name, cht_text) VALUES (?, ?, ?, ?, ?, ?)';
+      insPrm = [0, '자동알림', 0, -1, '전체', sms];
+      return db.query(res, insQr, insPrm, function(results, fields) {
+        var ntfStr;
+        ntfStr = "SELECT * FROM eq_member";
+        return db.query(res, ntfStr, [], function(results, fields) {
+          return results.map(function(mbr) {
+            if (mbr.mbr_fcm.length > 0) {
+              return fcm.sendFCM(mbr.mbr_fcm, 'smsparse', '협착 및 이상징후 발생', sms);
+            }
+          });
+        });
+      });
+    }
   }
 };
 

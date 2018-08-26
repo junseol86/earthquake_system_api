@@ -32,4 +32,8 @@ router.post('/delete', function(req, res) {
   return dbwork.delete(req, res);
 });
 
+router.post('/smsParseAlarm', function(req, res) {
+  return dbwork.smsParseAlarm(req, res);
+});
+
 module.exports = router;

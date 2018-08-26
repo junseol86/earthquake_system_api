@@ -21,4 +21,7 @@ router.post '/requestReport', (req, res) ->
 router.post '/delete', (req, res) ->
   dbwork.delete req, res
 
+router.post '/smsParseAlarm', (req, res) ->
+  dbwork.smsParseAlarm req, res
+
 module.exports = router
