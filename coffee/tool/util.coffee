@@ -49,14 +49,14 @@ exports.dateStamp = () ->
   dateformat(new Date(), 'yyyy-mm-dd')
 
 exports.evalEq = (eq) ->
-  if eq.eq_type = 'inland'
+  if eq.eq_type == 'inland'
     if 3.5 <= eq.eq_strength < 4
       eq.eq_level = 0
     else if 4 <= eq.eq_strength < 5
       eq.eq_level = 1
     else if 5 <= eq.eq_strength
       eq.eq_level = 2
-  else if eq.eq_type = 'waters'
+  else if eq.eq_type == 'waters'
     if 4 <= eq.eq_strength < 4.5
       eq.eq_level = 0
     else if 4.5 <= eq.eq_strength < 5.5

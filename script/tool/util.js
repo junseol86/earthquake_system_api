@@ -68,7 +68,7 @@ exports.dateStamp = function() {
 
 exports.evalEq = function(eq) {
   var ref, ref1, ref2, ref3;
-  if (eq.eq_type = 'inland') {
+  if (eq.eq_type === 'inland') {
     if ((3.5 <= (ref = eq.eq_strength) && ref < 4)) {
       return eq.eq_level = 0;
     } else if ((4 <= (ref1 = eq.eq_strength) && ref1 < 5)) {
@@ -76,7 +76,7 @@ exports.evalEq = function(eq) {
     } else if (5 <= eq.eq_strength) {
       return eq.eq_level = 2;
     }
-  } else if (eq.eq_type = 'waters') {
+  } else if (eq.eq_type === 'waters') {
     if ((4 <= (ref2 = eq.eq_strength) && ref2 < 4.5)) {
       return eq.eq_level = 0;
     } else if ((4.5 <= (ref3 = eq.eq_strength) && ref3 < 5.5)) {
